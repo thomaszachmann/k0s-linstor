@@ -1,0 +1,81 @@
+# add-apt-repository legt das PPA im deb822-Format an, wie bei der Handinstallation in Kapitel 5.
+# apt_repository würde daneben eine zweite .list-Datei anlegen.
+- name: LINBIT-PPA einbinden
+  ansible.builtin.command:
+    cmd: "add-apt-repository -y {{ linstor_ppa }}"
+    creates: /etc/apt/sources.list.d/linbit-ubuntu-linbit-drbd9-stack-noble.sources
+
+- name: DRBD, Werkzeuge und Kernel-Header installieren
+  ansible.builtin.apt:
+    name:
+      - "linux-headers-{{ ansible_kernel }}"
+      - drbd-dkms
+      - drbd-utils
+      - drbd-reactor
+      - linstor-client
+      - lvm2
+      - thin-provisioning-tools
+      - default-jre-headless
+    state: present
+
+- name: LINSTOR-Satellite in fester Version
+  ansible.builtin.apt:
+    name:
+      - "linstor-common={{ linstor_version }}"
+      - "linstor-satellite={{ linstor_version }}"
+    state: present
+    allow_downgrade: false
+    # Die Pakete sind gehalten. Ohne diese Option verweigert apt eine neue Version.
+    allow_change_held_packages: true
+
+- name: Versionen festhalten
+  ansible.builtin.dpkg_selections:
+    name: "{{ item }}"
+    selection: hold
+  loop: [linstor-common, linstor-satellite, drbd-dkms, drbd-utils]
+
+- name: DRBD beim Start laden
+  ansible.builtin.copy:
+    dest: /etc/modules-load.d/drbd.conf
+    content: "drbd\n"
+    mode: "0644"
+
+- name: DRBD jetzt laden
+  community.general.modprobe:
+    name: drbd
+    state: present
+
+- name: LVM soll DRBD-Geräte nicht scannen
+  ansible.builtin.lineinfile:
+    path: /etc/lvm/lvm.conf
+    regexp: '^\s*#?\s*global_filter\s*='
+    line: '	global_filter = [ "r|^/dev/drbd|" ]'
+    insertafter: '^devices \{'
+
+- name: Client-Konfiguration
+  ansible.builtin.template:
+    src: linstor-client.conf.j2
+    dest: /etc/linstor/linstor-client.conf
+    mode: "0644"
+
+- name: DRBD-Metriken über drbd-reactor
+  ansible.builtin.copy:
+    dest: /etc/drbd-reactor.d/prometheus.toml
+    content: |
+      [[prometheus]]
+      enums = true
+      address = ":9942"
+    mode: "0644"
+  notify: drbd-reactor neu laden
+
+- name: Satellite läuft
+  ansible.builtin.systemd_service:
+    name: linstor-satellite
+    enabled: true
+    state: started
+
+- name: drbd-reactor läuft
+  ansible.builtin.systemd_service:
+    name: drbd-reactor
+    enabled: true
+    state: started

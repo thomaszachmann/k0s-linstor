@@ -1,0 +1,178 @@
+
+PLAY [LINSTOR und DRBD auf allen Nodes] ****************************************
+
+TASK [Gathering Facts] *********************************************************
+[WARNING]: Host 'k0s-ctrl' is using the discovered Python interpreter at '/usr/bin/python3.12', but future installation of another Python interpreter could cause a different interpreter to be discovered. See https://docs.ansible.com/ansible-core/2.20/reference_appendices/interpreter_discovery.html for more information.
+[WARNING]: Host 'k0s-w3' is using the discovered Python interpreter at '/usr/bin/python3.12', but future installation of another Python interpreter could cause a different interpreter to be discovered. See https://docs.ansible.com/ansible-core/2.20/reference_appendices/interpreter_discovery.html for more information.
+[WARNING]: Host 'k0s-w1' is using the discovered Python interpreter at '/usr/bin/python3.12', but future installation of another Python interpreter could cause a different interpreter to be discovered. See https://docs.ansible.com/ansible-core/2.20/reference_appendices/interpreter_discovery.html for more information.
+[WARNING]: Host 'k0s-w2' is using the discovered Python interpreter at '/usr/bin/python3.12', but future installation of another Python interpreter could cause a different interpreter to be discovered. See https://docs.ansible.com/ansible-core/2.20/reference_appendices/interpreter_discovery.html for more information.
+ok: [k0s-ctrl]
+ok: [k0s-w3]
+ok: [k0s-w1]
+ok: [k0s-w2]
+
+TASK [linstor : LINBIT-PPA einbinden] ******************************************
+[WARNING]: Module remote_tmp /root/.ansible/tmp did not exist and was created with a mode of 0700, this may cause issues when running as another user. To avoid this, create the remote_tmp dir with the correct permissions manually
+--- before: /dev/null
++++ after: /etc/apt/sources.list.d/ppa_linbit_linbit_drbd9_stack_noble.list
+@@ -0,0 +1 @@
++deb https://ppa.launchpadcontent.net/linbit/linbit-drbd9-stack/ubuntu noble main
+
+changed: [k0s-w2]
+--- before: /dev/null
++++ after: /etc/apt/sources.list.d/ppa_linbit_linbit_drbd9_stack_noble.list
+@@ -0,0 +1 @@
++deb https://ppa.launchpadcontent.net/linbit/linbit-drbd9-stack/ubuntu noble main
+
+changed: [k0s-ctrl]
+--- before: /dev/null
++++ after: /etc/apt/sources.list.d/ppa_linbit_linbit_drbd9_stack_noble.list
+@@ -0,0 +1 @@
++deb https://ppa.launchpadcontent.net/linbit/linbit-drbd9-stack/ubuntu noble main
+
+changed: [k0s-w1]
+--- before: /dev/null
++++ after: /etc/apt/sources.list.d/ppa_linbit_linbit_drbd9_stack_noble.list
+@@ -0,0 +1 @@
++deb https://ppa.launchpadcontent.net/linbit/linbit-drbd9-stack/ubuntu noble main
+
+changed: [k0s-w3]
+
+TASK [linstor : DRBD, Werkzeuge und Kernel-Header installieren] ****************
+[WARNING]: Deprecation warnings can be disabled by setting `deprecation_warnings=False` in ansible.cfg.
+[DEPRECATION WARNING]: INJECT_FACTS_AS_VARS default to `True` is deprecated, top-level facts will not be auto injected after the change. This feature will be removed from ansible-core version 2.24.
+Origin: /Users/thomasmundt/k0s-linstor/lab/ansible/roles/linstor/tasks/main.yml:9:9
+
+7   ansible.builtin.apt:
+8     name:
+9       - "linux-headers-{{ ansible_kernel }}"
+          ^ column 9
+
+Use `ansible_facts["fact_name"]` (no `ansible_` prefix) instead.
+
+ok: [k0s-ctrl]
+ok: [k0s-w2]
+ok: [k0s-w1]
+ok: [k0s-w3]
+
+TASK [linstor : LINSTOR-Satellite in fester Version] ***************************
+ok: [k0s-w3]
+ok: [k0s-w2]
+ok: [k0s-ctrl]
+ok: [k0s-w1]
+
+TASK [linstor : Versionen festhalten] ******************************************
+ok: [k0s-w1] => (item=linstor-common)
+ok: [k0s-w2] => (item=linstor-common)
+ok: [k0s-w3] => (item=linstor-common)
+ok: [k0s-ctrl] => (item=linstor-common)
+ok: [k0s-w1] => (item=linstor-satellite)
+ok: [k0s-w3] => (item=linstor-satellite)
+ok: [k0s-w2] => (item=linstor-satellite)
+ok: [k0s-ctrl] => (item=linstor-satellite)
+ok: [k0s-w1] => (item=drbd-dkms)
+ok: [k0s-w2] => (item=drbd-dkms)
+ok: [k0s-w3] => (item=drbd-dkms)
+ok: [k0s-ctrl] => (item=drbd-dkms)
+ok: [k0s-w1] => (item=drbd-utils)
+ok: [k0s-w2] => (item=drbd-utils)
+ok: [k0s-w3] => (item=drbd-utils)
+ok: [k0s-ctrl] => (item=drbd-utils)
+
+TASK [linstor : DRBD beim Start laden] *****************************************
+ok: [k0s-ctrl]
+ok: [k0s-w2]
+ok: [k0s-w1]
+ok: [k0s-w3]
+
+TASK [linstor : DRBD jetzt laden] **********************************************
+ok: [k0s-w3]
+ok: [k0s-w2]
+ok: [k0s-w1]
+ok: [k0s-ctrl]
+
+TASK [linstor : LVM soll DRBD-Geräte nicht scannen] ****************************
+ok: [k0s-w2]
+ok: [k0s-w1]
+ok: [k0s-w3]
+ok: [k0s-ctrl]
+
+TASK [linstor : Client-Konfiguration] ******************************************
+ok: [k0s-ctrl]
+ok: [k0s-w3]
+ok: [k0s-w2]
+ok: [k0s-w1]
+
+TASK [linstor : DRBD-Metriken über drbd-reactor] *******************************
+ok: [k0s-w3]
+ok: [k0s-w2]
+ok: [k0s-w1]
+ok: [k0s-ctrl]
+
+TASK [linstor : Satellite läuft] ***********************************************
+ok: [k0s-w1]
+ok: [k0s-w3]
+ok: [k0s-ctrl]
+ok: [k0s-w2]
+
+TASK [linstor : drbd-reactor läuft] ********************************************
+ok: [k0s-w2]
+ok: [k0s-w3]
+ok: [k0s-w1]
+ok: [k0s-ctrl]
+
+PLAY [Controller-HA auf den Kandidaten] ****************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [k0s-w3]
+ok: [k0s-w2]
+ok: [k0s-w1]
+
+TASK [linstor-controller-ha : Controller-Paket und VIP-Agent] ******************
+ok: [k0s-w2]
+ok: [k0s-w3]
+ok: [k0s-w1]
+
+TASK [linstor-controller-ha : Version festhalten] ******************************
+ok: [k0s-w2]
+ok: [k0s-w1]
+ok: [k0s-w3]
+
+TASK [linstor-controller-ha : Controller nicht von systemd starten lassen] *****
+ok: [k0s-w2]
+ok: [k0s-w1]
+ok: [k0s-w3]
+
+TASK [linstor-controller-ha : Mount-Unit für die Controller-Datenbank] *********
+ok: [k0s-w2]
+ok: [k0s-w1]
+ok: [k0s-w3]
+
+TASK [linstor-controller-ha : Promoter für linstor_db] *************************
+ok: [k0s-w1]
+ok: [k0s-w3]
+ok: [k0s-w2]
+
+PLAY RECAP *********************************************************************
+k0s-ctrl                   : ok=12   changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+k0s-w1                     : ok=18   changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+k0s-w2                     : ok=18   changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+k0s-w3                     : ok=18   changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+
+### lauf 1 (echt)
+PLAY RECAP *********************************************************************
+k0s-ctrl                   : ok=12   changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+k0s-w1                     : ok=18   changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+k0s-w2                     : ok=18   changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+k0s-w3                     : ok=18   changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+### lauf 2 (idempotenz)
+PLAY RECAP *********************************************************************
+k0s-ctrl                   : ok=12   changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+k0s-w1                     : ok=18   changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+k0s-w2                     : ok=18   changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+k0s-w3                     : ok=18   changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+k0s-ctrl                   : ok=12   changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+k0s-w1                     : ok=18   changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+k0s-w2                     : ok=18   changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+k0s-w3                     : ok=18   changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   

@@ -1,0 +1,7 @@
+# Storage-Netz für DRBD (vmbr1 auf Proxmox, ohne Gateway)
+network:
+  version: 2
+  ethernets:
+    ens19:
+      addresses: [10.10.0.12/24]
+      mtu: 1500

@@ -1,0 +1,11 @@
+# drbd-reactor: genau ein aktiver LINSTOR-Controller, dort wo linstor_db Primary ist
+[[promoter]]
+id = "linstor_db"
+[promoter.resources.linstor_db]
+start = [
+  "var-lib-linstor.mount",
+  "ocf:heartbeat:IPaddr2 linstor_vip ip=10.10.0.100 cidr_netmask=24 nic=ens19",
+  "linstor-controller.service",
+]
+on-drbd-demote-failure = "reboot"
+stop-services-on-exit = true

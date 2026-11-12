@@ -1,0 +1,143 @@
+### nach plattentausch w2 20:54:27
+NAME       SIZE TYPE MOUNTPOINTS
+sda         30G disk 
+├─sda1      29G part /
+├─sda14      4M part 
+├─sda15    106M part /boot/efi
+└─sda16    913M part /boot
+sdc         32G disk 
+sr0          4M rom  
+drbd1000 203.9M disk 
+drbd1001     2G disk 
+Nov 12 20:25:02 k0s-w2 kernel: drbd pvc-447e9ad1-d48e-46cd-b58e-998a919d658d/0 drbd1002 k0s-ctrl: pdsk( Diskless -> DUnknown ) repl( Established -> Off ) [remote]
+Nov 12 20:25:03 k0s-w2 kernel: drbd pvc-447e9ad1-d48e-46cd-b58e-998a919d658d/0 drbd1002: disk( UpToDate -> Detaching ) [down]
+Nov 12 20:25:03 k0s-w2 kernel: drbd pvc-447e9ad1-d48e-46cd-b58e-998a919d658d: susp-io( no -> quorum ) [go-diskless]
+Nov 12 20:25:03 k0s-w2 kernel: drbd pvc-447e9ad1-d48e-46cd-b58e-998a919d658d/0 drbd1002: disk( Detaching -> Diskless ) quorum( yes -> no ) [go-diskless]
+Nov 12 20:25:05 k0s-w2 kernel: drbd pvc-68931659-7584-48fc-8a91-db76c12be00c/0 drbd1003 k0s-ctrl: pdsk( Diskless -> DUnknown ) repl( Established -> Off ) [remote]
+Nov 12 20:25:05 k0s-w2 kernel: drbd pvc-68931659-7584-48fc-8a91-db76c12be00c/0 drbd1003: disk( UpToDate -> Detaching ) [down]
+Nov 12 20:25:05 k0s-w2 kernel: drbd pvc-68931659-7584-48fc-8a91-db76c12be00c/0 drbd1003: disk( Detaching -> Diskless ) [go-diskless]
+Nov 12 20:30:14 k0s-w2 kernel: drbd pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250/0 drbd1001 k0s-w1: pdsk( DUnknown -> Diskless ) repl( Off -> Established ) [connected]
+Nov 12 20:34:48 k0s-w2 kernel: drbd pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250/0 drbd1001 k0s-w1: pdsk( Diskless -> DUnknown ) repl( Established -> Off ) [remote]
+Nov 12 20:51:49 k0s-w2 kernel: sd 0:0:0:1: [sdb] Synchronizing SCSI cache
+Nov 12 20:51:49 k0s-w2 kernel: sd 0:0:0:1: [sdb] Synchronize Cache(10) failed: Result: hostbyte=DID_OK driverbyte=DRIVER_OK
+Nov 12 20:51:49 k0s-w2 kernel: sd 0:0:0:1: [sdb] Sense Key : Illegal Request [current] 
+Nov 12 20:51:49 k0s-w2 kernel: sd 0:0:0:1: [sdb] Add. Sense: Logical unit not supported
+Nov 12 20:51:49 k0s-w2 kernel: drbd pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250/0 drbd1001: disk( UpToDate -> Failed ) [local-io-error]
+Nov 12 20:51:49 k0s-w2 kernel: drbd pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250/0 drbd1001: Local IO failed in drbd_endio_write_sec_final. Detaching...
+### drbd
+linstor_db role:Secondary
+  disk:Diskless client:no open:no
+  k0s-ctrl role:Secondary
+    peer-disk:Diskless peer-client:yes
+  k0s-w1 role:Primary
+    peer-disk:UpToDate
+  k0s-w3 role:Secondary
+    peer-disk:UpToDate
+
+pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250 role:Secondary
+  disk:Diskless client:no open:no
+  k0s-ctrl role:Secondary
+    peer-disk:Diskless peer-client:yes
+  k0s-w3 role:Primary
+    peer-disk:UpToDate
+
+### linstor
+╭────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ResourceName                             │ Node     │ Layers                  │ Usage  │ Conns │                  State │ Vote │
+╞════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╡
+│ linstor_db                               │ k0s-ctrl │ DRBD,STORAGE            │ Unused │ Ok    │               Diskless │ Yes  │
+│ linstor_db                               │ k0s-w1   │ DRBD,STORAGE            │ InUse  │ Ok    │               UpToDate │ Yes  │
+│ linstor_db                               │ k0s-w2   │ DRBD,STORAGE            │ Unused │ Ok    │ Diskless, SkipDisk (R) │ Yes  │
+│ linstor_db                               │ k0s-w3   │ DRBD,STORAGE            │ Unused │ Ok    │               UpToDate │ Yes  │
+│ pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250 │ k0s-ctrl │ DRBD,STORAGE            │ Unused │ Ok    │               Diskless │ Yes  │
+│ pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250 │ k0s-w2   │ DRBD,WRITECACHE,STORAGE │ Unused │ Ok    │ Diskless, SkipDisk (R) │ Yes  │
+│ pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250 │ k0s-w3   │ DRBD,WRITECACHE,STORAGE │ InUse  │ Ok    │               UpToDate │ Yes  │
+╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+SkipDisk:
+  At least one resource has 'DrbdOptions/SkipDisk' enabled. This indicates an IO error on the
+  affected resource(s). Remove this property (using 'linstor resource set-property $node $rsc DrbdOptions/SkipDisk') 
+  to instruct LINSTOR and DRBD to adjust (and recreate if necessary) the affected logical volumes again.
+  For more information please visit: https://linbit.com/drbd-user-guide/linstor-guide-1_0-en/#s-linstor-drbd-skip-disk
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ StoragePool          │ Node   │ Driver   │ PoolName │ FreeCapacity │ TotalCapacity │ CanSnapshots │ State │ SharedName                  │
+╞═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╡
+│ DfltDisklessStorPool │ k0s-w2 │ DISKLESS │          │              │               │ False        │ Ok    │ k0s-w2;DfltDisklessStorPool │
+│ pool_data            │ k0s-w2 │ LVM      │ data     │    27.79 GiB │     30.00 GiB │ True         │ Ok    │ k0s-w2;pool_data            │
+│ pool_nvme            │ k0s-w2 │ LVM      │ cache    │     1.89 GiB │      2.00 GiB │ True         │ Ok    │ k0s-w2;pool_nvme            │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+awk: syntax error at source line 1
+ context is
+	 >>> \ <<< $2=="FEHLER"{n++} END{print "fehler:", n+0}
+awk: bailing out at source line 1
+0
+cache-pvc--55d1f760--7f7b--4d71--8a03--0e1e8cd11250.cache_00000	(252:2)
+data-linstor_db_00000	(252:0)
+data-pvc--55d1f760--7f7b--4d71--8a03--0e1e8cd11250_00000	(252:1)
+linstor_writecache_pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250_00000	(252:3)
+### alte dm-geraete entfernen
+Name                                                              Open
+cache-pvc--55d1f760--7f7b--4d71--8a03--0e1e8cd11250.cache_00000      1
+data-linstor_db_00000                                                0
+data-pvc--55d1f760--7f7b--4d71--8a03--0e1e8cd11250_00000             1
+linstor_writecache_pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250_00000    0
+No devices found
+### neue platte sdc
+  Physical volume "/dev/sdc1" successfully created.
+  Physical volume "/dev/sdc2" successfully created.
+  Volume group "data" successfully created
+  Volume group "cache" successfully created
+  VG    #PV #LV #SN Attr   VSize   VFree  
+  cache   1   0   0 wz--n-  <2.00g  <2.00g
+  data    1   0   0 wz--n- <30.00g <30.00g
+### skipdisk entfernen 20:55:01
+SUCCESS:
+    Successfully deleted property key(s): DrbdOptions/SkipDisk
+SUCCESS:
+SUCCESS:
+    (k0s-ctrl) Resource 'linstor_db' [DRBD] adjusted.
+SUCCESS:
+    (k0s-w3) Resource 'linstor_db' [DRBD] adjusted.
+SUCCESS:
+╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ResourceName                             │ Node     │ Layers                  │ Usage  │ Conns │    State │ Vote │
+╞══════════════════════════════════════════════════════════════════════════════════════════════════════════════════╡
+│ linstor_db                               │ k0s-ctrl │ DRBD,STORAGE            │ Unused │ Ok    │ Diskless │ Yes  │
+│ linstor_db                               │ k0s-w1   │ DRBD,STORAGE            │ InUse  │ Ok    │ UpToDate │ Yes  │
+│ linstor_db                               │ k0s-w2   │ DRBD,STORAGE            │ Unused │ Ok    │ UpToDate │ Yes  │
+│ linstor_db                               │ k0s-w3   │ DRBD,STORAGE            │ Unused │ Ok    │ UpToDate │ Yes  │
+│ pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250 │ k0s-ctrl │ DRBD,STORAGE            │ Unused │ Ok    │ Diskless │ Yes  │
+│ pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250 │ k0s-w2   │ DRBD,WRITECACHE,STORAGE │ Unused │ Ok    │ UpToDate │ Yes  │
+│ pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250 │ k0s-w3   │ DRBD,WRITECACHE,STORAGE │ InUse  │ Ok    │ UpToDate │ Yes  │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─────────────────────────────────────────────────────────────╮
+│ ResourceName │ Node │ Layers │ Usage │ Conns │ State │ Vote │
+╞═════════════════════════════════════════════════════════════╡
+╰─────────────────────────────────────────────────────────────╯
+linstor_db role:Secondary
+  disk:UpToDate open:no
+  k0s-ctrl role:Secondary
+    peer-disk:Diskless peer-client:yes
+  k0s-w1 role:Primary
+    peer-disk:UpToDate
+  k0s-w3 role:Secondary
+    peer-disk:UpToDate
+
+pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250 role:Secondary
+  disk:UpToDate open:no
+  k0s-ctrl role:Secondary
+    peer-disk:Diskless peer-client:yes
+  k0s-w3 role:Primary
+    peer-disk:UpToDate
+
+NAME                                                                    MAJ:MIN  RM   SIZE RO TYPE MOUNTPOINTS
+sdc                                                                       8:32    0    32G  0 disk 
+├─sdc1                                                                    8:33    0    30G  0 part 
+│ ├─data-linstor_db_00000                                               252:0     0   204M  0 lvm  
+│ │ └─drbd1000                                                          147:1000  0 203.9M  0 disk 
+│ └─data-pvc--55d1f760--7f7b--4d71--8a03--0e1e8cd11250_00000            252:1     0     2G  0 lvm  
+│   └─linstor_writecache_pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250_00000 252:3     0     2G  0 dm   
+│     └─drbd1001                                                        147:1001  0     2G  0 disk 
+└─sdc2                                                                    8:34    0     2G  0 part 
+  └─cache-pvc--55d1f760--7f7b--4d71--8a03--0e1e8cd11250.cache_00000     252:2     0   104M  0 lvm  
+    └─linstor_writecache_pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250_00000 252:3     0     2G  0 dm   
+      └─drbd1001                                                        147:1001  0     2G  0 disk 

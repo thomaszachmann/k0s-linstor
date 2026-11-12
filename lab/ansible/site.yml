@@ -1,0 +1,9 @@
+- name: LINSTOR und DRBD auf allen Nodes
+  hosts: linstor_satellites
+  become: true
+  roles: [linstor]
+
+- name: Controller-HA auf den Kandidaten
+  hosts: linstor_controllers
+  become: true
+  roles: [linstor-controller-ha]

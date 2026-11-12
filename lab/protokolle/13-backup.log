@@ -1,0 +1,80 @@
+Created symlink /etc/systemd/system/multi-user.target.wants/seaweedfs.service → /etc/systemd/system/seaweedfs.service.
+version 30GB 4.53 4ab66fb76da83700739f5839e62fcaf15fb7d02a linux amd64
+
+For enterprise users, please visit https://seaweedfs.com for the SeaweedFS Enterprise Edition,
+which has advanced features, including data recovery, self-healing storage, customizable erasure coding, EC vacuum and repair, etc.
+active
+403
+make_bucket: velero
+2026-11-12 21:06:33 velero
+STATUS: deployed
+NAME      PROVIDER   BUCKET/PREFIX   PHASE       LAST VALIDATED                  ACCESS MODE   DEFAULT
+default   aws        velero          Available   2026-11-12 21:07:23 +0100 CET   ReadWrite     true
+### backup 20:08:01
+  2020
+
+...............
+Backup completed with status: Completed. You may check for more information using the commands `velero backup describe demo-1` and `velero backup logs demo-1`.
+Phase:  Completed
+Started:    2026-11-12 21:08:03 +0100 CET
+Completed:  2026-11-12 21:08:18 +0100 CET
+Total items to be backed up:  38
+    - demo/pg-0.18e762680edad47a
+    - demo/pg-0.18e7626a64e942fa
+    - demo/pg-0.18e7626a79634b26
+    - demo/pg-0.18e76279ab6336ce
+    - demo/pg-0.18e76279c93b4657
+    - demo/pg-0.18e76279e0f182c0
+    - demo/pg-0.18e76279f9260a99
+    - demo/pg-0.18e762eba907acf0
+Backup Volumes:
+  Velero-Native Snapshots: <none included>
+
+  CSI Snapshots: <none included>
+
+  Pod Volume Backups - kopia:
+    Completed:
+      demo/pg-0: data (size: 40459477, incremental size: 40459477)
+
+HooksAttempted:  0
+HooksFailed:     0
+### namespace demo loeschen 20:08:30
+namespace "demo" deleted
+0
+### restore 20:09:33
+Restore completed with status: Completed. You may check for more information using the commands `velero restore describe demo-1-restore` and `velero restore logs demo-1-restore`.
+partitioned roll out complete: 1 new pods have been updated...
+NAME            READY   STATUS    RESTARTS   AGE   IP            NODE     NOMINATED NODE   READINESS GATES
+pod/pg-0        1/1     Running   0          19s   10.244.1.12   k0s-w3   <none>           <none>
+pod/pg-client   1/1     Running   0          19s   10.244.0.21   k0s-w1   <none>           <none>
+
+NAME                              STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS         VOLUMEATTRIBUTESCLASS   AGE   VOLUMEMODE
+persistentvolumeclaim/data-pg-0   Bound    pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250   2Gi        RWO            linstor-replicated   <unset>                 19s   Filesystem
+Defaulted container "postgres" out of: postgres, restore-wait (init)
+          text          
+------------------------
+ geschrieben auf k0s-w2
+(1 row)
+
+ count 
+-------
+  2027
+(1 row)
+
+Phase:                       Completed
+Total items to be restored:  12
+Items restored:              12
+--
+Completed:  2026-11-12 21:09:54 +0100 CET
+
+Warnings:
+--
+kopia Restores (specify --details for more information):
+  Completed:  1
+╭────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ResourceName                             │ Node     │ Layers                  │ Usage  │ Conns │              State │ Vote │
+╞════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╡
+│ pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250 │ k0s-ctrl │ DRBD,STORAGE            │ Unused │ Ok    │           Diskless │ Yes  │
+│ pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250 │ k0s-w2   │ DRBD,WRITECACHE,STORAGE │ Unused │ Ok    │ SyncTarget(36.36%) │ Yes  │
+│ pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250 │ k0s-w3   │ DRBD,WRITECACHE,STORAGE │ InUse  │ Ok    │           UpToDate │ Yes  │
+╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯

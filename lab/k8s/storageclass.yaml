@@ -1,0 +1,24 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: linstor-replicated
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+provisioner: linstor.csi.linbit.com
+parameters:
+  # Der CSI-Treiber schreibt diese Werte in die Resource-Group. Was hier fehlt,
+  # setzt er auf seine Standardwerte zurück (1 Replikat, nur drbd+storage).
+  linstor.csi.linbit.com/resourceGroup: rg-k8s
+  linstor.csi.linbit.com/storagePool: pool_data
+  linstor.csi.linbit.com/placementCount: "2"
+  linstor.csi.linbit.com/replicasOnDifferent: Aux/zone
+  linstor.csi.linbit.com/layerList: drbd writecache storage
+  property.linstor.csi.linbit.com/Writecache/PoolName: pool_nvme
+  property.linstor.csi.linbit.com/Writecache/Size: "5%"
+  property.linstor.csi.linbit.com/DrbdOptions/Resource/quorum: majority
+  property.linstor.csi.linbit.com/DrbdOptions/Resource/on-no-quorum: suspend-io
+  property.linstor.csi.linbit.com/DrbdOptions/Resource/on-suspended-primary-outdated: force-secondary
+  csi.storage.k8s.io/fstype: ext4
+allowVolumeExpansion: true
+volumeBindingMode: WaitForFirstConsumer
+reclaimPolicy: Delete

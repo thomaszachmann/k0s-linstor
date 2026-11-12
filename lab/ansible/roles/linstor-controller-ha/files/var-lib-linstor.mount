@@ -1,0 +1,6 @@
+[Unit]
+Description=Filesystem for the LINSTOR controller
+
+[Mount]
+What=/dev/drbd/by-res/linstor_db/0
+Where=/var/lib/linstor

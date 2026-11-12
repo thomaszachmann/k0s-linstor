@@ -1,0 +1,12 @@
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshotClass
+metadata: {name: linstor-snapshots}
+driver: linstor.csi.linbit.com
+deletionPolicy: Delete
+---
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshot
+metadata: {name: pg-vor-update, namespace: demo}
+spec:
+  volumeSnapshotClassName: linstor-snapshots
+  source: {persistentVolumeClaimName: data-pg-0}

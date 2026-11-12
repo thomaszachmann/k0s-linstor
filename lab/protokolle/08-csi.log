@@ -1,0 +1,173 @@
+NAME: piraeus-operator
+LAST DEPLOYED: Thu Nov 12 19:09:28 2026
+NAMESPACE: piraeus-datastore
+STATUS: deployed
+REVISION: 1
+DESCRIPTION: Install complete
+TEST SUITE: None
+NOTES:
+Piraeus Operator installed.
+
+To get started with Piraeus Datastore deploy the "linstor-cluster" chart:
+
+$ helm upgrade --install --namespace piraeus-datastore linstor-cluster oci://ghcr.io/piraeusdatastore/helm-charts/linstor-cluster
+
+For next steps, check out our documentation at https://piraeus.io/docs/v2.12.0
+NAME: linstor-cluster
+LAST DEPLOYED: Thu Nov 12 19:10:10 2026
+NAMESPACE: piraeus-datastore
+STATUS: deployed
+REVISION: 1
+NAME                                                   READY   STATUS    RESTARTS   AGE    IP           NODE     NOMINATED NODE   READINESS GATES
+linstor-csi-controller-d58ff7b44-4vg29                 0/6     Pending   0          59s    <none>       <none>   <none>           <none>
+piraeus-operator-controller-manager-54fd7c49f9-767dh   1/1     Running   0          100s   10.244.0.5   k0s-w1   <none>           <none>
+Controller 1.33.3 (API: 1.27.0, Git: 1ff3a1ea5cb5c77100265ec442bb9a492b225145) reachable at 'http://10.10.0.100:3370'
+### upgrade mit nodeSelector null
+STATUS: deployed
+NAME                                                   READY   STATUS     RESTARTS   AGE     IP             NODE     NOMINATED NODE   READINESS GATES
+linstor-csi-controller-85987c8cf6-z7m6c                6/6     Running    0          76s     10.244.1.4     k0s-w3   <none>           <none>
+linstor-csi-node-fm7t5                                 0/3     Init:0/1   0          76s     172.16.0.186   k0s-w1   <none>           <none>
+linstor-csi-node-q4k2m                                 0/3     Init:0/1   0          76s     172.16.0.36    k0s-w2   <none>           <none>
+linstor-csi-node-xv5nb                                 0/3     Init:0/1   0          76s     172.16.0.72    k0s-w3   <none>           <none>
+piraeus-operator-controller-manager-54fd7c49f9-767dh   1/1     Running    0          3m34s   10.244.0.5     k0s-w1   <none>           <none>
+No resources found
+quay.io/piraeusdatastore/piraeus-csi:v1.12.0
+### upgrade mit k0s-pfaden
+STATUS: deployed
+Waiting for daemon set "linstor-csi-node" rollout to finish: 0 of 3 updated pods are available...
+error: timed out waiting for the condition
+NAME                                                   READY   STATUS     RESTARTS   AGE     IP             NODE     NOMINATED NODE   READINESS GATES
+linstor-csi-controller-85987c8cf6-z7m6c                6/6     Running    0          5m47s   10.244.1.4     k0s-w3   <none>           <none>
+linstor-csi-node-fm7t5                                 0/3     Init:0/1   0          5m47s   172.16.0.186   k0s-w1   <none>           <none>
+linstor-csi-node-q4k2m                                 0/3     Init:0/1   0          5m47s   172.16.0.36    k0s-w2   <none>           <none>
+linstor-csi-node-xv5nb                                 0/3     Init:0/1   0          5m47s   172.16.0.72    k0s-w3   <none>           <none>
+piraeus-operator-controller-manager-54fd7c49f9-767dh   1/1     Running    0          8m5s    10.244.0.5     k0s-w1   <none>           <none>
+(eval):1: no matches found: custom-columns=NODE:.metadata.name,DRIVERS:.spec.drivers[*].name
+### upgrade mit k0s-pfaden (2)
+STATUS: deployed
+Waiting for daemon set "linstor-csi-node" rollout to finish: 1 of 3 updated pods are available...
+Waiting for daemon set "linstor-csi-node" rollout to finish: 2 out of 3 new pods have been updated...
+Waiting for daemon set "linstor-csi-node" rollout to finish: 0 of 3 updated pods are available...
+Waiting for daemon set "linstor-csi-node" rollout to finish: 1 of 3 updated pods are available...
+Waiting for daemon set "linstor-csi-node" rollout to finish: 0 of 3 updated pods are available...
+Waiting for daemon set "linstor-csi-node" rollout to finish: 1 of 3 updated pods are available...
+Waiting for daemon set "linstor-csi-node" rollout to finish: 2 out of 3 new pods have been updated...
+Waiting for daemon set "linstor-csi-node" rollout to finish: 0 of 3 updated pods are available...
+Waiting for daemon set "linstor-csi-node" rollout to finish: 1 of 3 updated pods are available...
+Waiting for daemon set "linstor-csi-node" rollout to finish: 2 out of 3 new pods have been updated...
+Waiting for daemon set "linstor-csi-node" rollout to finish: 0 of 3 updated pods are available...
+Waiting for daemon set "linstor-csi-node" rollout to finish: 1 of 3 updated pods are available...
+Waiting for daemon set "linstor-csi-node" rollout to finish: 2 out of 3 new pods have been updated...
+Waiting for daemon set "linstor-csi-node" rollout to finish: 0 of 3 updated pods are available...
+Waiting for daemon set "linstor-csi-node" rollout to finish: 1 of 3 updated pods are available...
+Waiting for daemon set "linstor-csi-node" rollout to finish: 2 out of 3 new pods have been updated...
+Waiting for daemon set "linstor-csi-node" rollout to finish: 0 of 3 updated pods are available...
+Waiting for daemon set "linstor-csi-node" rollout to finish: 1 of 3 updated pods are available...
+Waiting for daemon set "linstor-csi-node" rollout to finish: 2 out of 3 new pods have been updated...
+Waiting for daemon set "linstor-csi-node" rollout to finish: 0 of 3 updated pods are available...
+Waiting for daemon set "linstor-csi-node" rollout to finish: 1 of 3 updated pods are available...
+Waiting for daemon set "linstor-csi-node" rollout to finish: 0 of 3 updated pods are available...
+Waiting for daemon set "linstor-csi-node" rollout to finish: 1 of 3 updated pods are available...
+Waiting for daemon set "linstor-csi-node" rollout to finish: 2 out of 3 new pods have been updated...
+Waiting for daemon set "linstor-csi-node" rollout to finish: 0 of 3 updated pods are available...
+Waiting for daemon set "linstor-csi-node" rollout to finish: 1 of 3 updated pods are available...
+Waiting for daemon set "linstor-csi-node" rollout to finish: 2 of 3 updated pods are available...
+daemon set "linstor-csi-node" successfully rolled out
+NAME                                                   READY   STATUS        RESTARTS   AGE     IP             NODE     NOMINATED NODE   READINESS GATES
+linstor-csi-controller-85987c8cf6-z7m6c                6/6     Running       0          6m57s   10.244.1.4     k0s-w3   <none>           <none>
+linstor-csi-node-bkxj4                                 3/3     Terminating   0          56s     172.16.0.186   k0s-w1   <none>           <none>
+linstor-csi-node-c8t8z                                 3/3     Running       0          56s     172.16.0.36    k0s-w2   <none>           <none>
+linstor-csi-node-h6mql                                 3/3     Running       0          3s      172.16.0.72    k0s-w3   <none>           <none>
+piraeus-operator-controller-manager-54fd7c49f9-767dh   1/1     Running       0          9m15s   10.244.0.5     k0s-w1   <none>           <none>
+NODE     DRIVERS
+k0s-w1   <none>
+k0s-w2   linstor.csi.linbit.com
+k0s-w3   linstor.csi.linbit.com
+### Aux/topology fuer CSI
+    Successfully set property key(s): Aux/topology/linbit.com/hostname
+    Successfully set property key(s): Aux/topology/linbit.com/hostname
+    Successfully set property key(s): Aux/topology/linbit.com/hostname
+NAME                     READY   STATUS    RESTARTS   AGE   IP             NODE     NOMINATED NODE   READINESS GATES
+linstor-csi-node-8t9g8   3/3     Running   0          93s   172.16.0.36    k0s-w2   <none>           <none>
+linstor-csi-node-lfwd7   3/3     Running   0          92s   172.16.0.186   k0s-w1   <none>           <none>
+linstor-csi-node-x6m4r   3/3     Running   0          93s   172.16.0.72    k0s-w3   <none>           <none>
+NODE     DRIVERS                  KEYS
+k0s-w1   linstor.csi.linbit.com   [linbit.com/hostname]
+k0s-w2   linstor.csi.linbit.com   [linbit.com/hostname]
+k0s-w3   linstor.csi.linbit.com   [linbit.com/hostname]
+Applied=True Resources applied
+Available=True Controller 1.33.3 (API: 1.27.0, Git: 1ff3a1ea5cb5c77100265ec442bb9a492b225145) reachable at 'http://10.10.0.100:3370'
+Configured=True Properties applied
+### storageclass + postgres
+storageclass.storage.k8s.io/linstor-replicated created
+namespace/demo created
+statefulset.apps/pg created
+Waiting for 1 pods to be ready...
+partitioned roll out complete: 1 new pods have been updated...
+NAME                              STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS         VOLUMEATTRIBUTESCLASS   AGE   VOLUMEMODE
+persistentvolumeclaim/data-pg-0   Bound    pvc-55e2d7ed-daf4-49c0-b699-ab5b2728a9d5   2Gi        RWO            linstor-replicated   <unset>                 40s   Filesystem
+
+NAME       READY   STATUS    RESTARTS   AGE   IP           NODE     NOMINATED NODE   READINESS GATES
+pod/pg-0   1/1     Running   0          40s   10.244.2.4   k0s-w2   <none>           <none>
+### linstor sicht auf pvc-55e2d7ed-daf4-49c0-b699-ab5b2728a9d5
+╭────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ResourceName                             │ Node   │ Layers       │ Usage │ Conns │    State │ Vote │
+╞════════════════════════════════════════════════════════════════════════════════════════════════════╡
+│ pvc-55e2d7ed-daf4-49c0-b699-ab5b2728a9d5 │ k0s-w2 │ DRBD,STORAGE │ InUse │ Ok    │ UpToDate │ Yes  │
+╰────────────────────────────────────────────────────────────────────────────────────────────────────╯
+'pvc-55e2d7ed-daf4-49c0-b699-ab5b2728a9d5' not defined in your config (for this host).
+### daten schreiben
+CREATE TABLE
+INSERT 0 1
+ id |          text          |             zeit              
+----+------------------------+-------------------------------
+  1 | geschrieben auf k0s-w2 | 2026-11-12 18:23:39.926445+00
+(1 row)
+
+### neu: storageclass mit allen parametern
+namespace "demo" deleted
+statefulset.apps "pg" deleted from demo namespace
+storageclass.storage.k8s.io "linstor-replicated" deleted
+storageclass.storage.k8s.io/linstor-replicated created
+namespace/demo created
+statefulset.apps/pg created
+Waiting for 1 pods to be ready...
+Waiting for 1 pods to be ready...
+partitioned roll out complete: 1 new pods have been updated...
+╭────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ResourceName                             │ Node     │ Layers                  │ Usage  │ Conns │              State │ Vote │
+╞════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╡
+│ pvc-0d903f58-5691-4cda-bb3e-a155de0ced03 │ k0s-ctrl │ DRBD,STORAGE            │ Unused │ Ok    │           Diskless │ Yes  │
+│ pvc-0d903f58-5691-4cda-bb3e-a155de0ced03 │ k0s-w1   │ DRBD,WRITECACHE,STORAGE │ Unused │ Ok    │ SyncTarget(36.32%) │ Yes  │
+│ pvc-0d903f58-5691-4cda-bb3e-a155de0ced03 │ k0s-w2   │ DRBD,WRITECACHE,STORAGE │ InUse  │ Ok    │           UpToDate │ Yes  │
+╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ResourceGroup │ SelectFilter                                  │ VlmNrs │ Properties                                                         │ Description │
+╞═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╡
+│ rg-k8s        │ PlaceCount: 2                                 │        │ DrbdOptions/Resource/on-no-quorum=suspend-io                       │             │
+│               │ StoragePool(s): pool_data                     │        │ DrbdOptions/Resource/on-suspended-primary-outdated=force-secondary │             │
+│               │ ReplicasOnDifferent: ['Aux/zone']             │        │ DrbdOptions/Resource/quorum=majority                               │             │
+│               │ LayerStack: ['DRBD', 'WRITECACHE', 'STORAGE'] │        │ Internal/Drbd/QuorumSetBy=user                                     │             │
+│               │                                               │        │ Writecache/PoolName=pool_nvme                                      │             │
+│               │                                               │        │ Writecache/Size=5%                                                 │             │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+### daten + umzug
+pod lief auf k0s-w2
+node/k0s-w2 cordoned
+pod "pg-0" deleted from demo namespace
+pod/pg-0 condition met
+NAME   READY   STATUS    RESTARTS   AGE   IP           NODE     NOMINATED NODE   READINESS GATES
+pg-0   1/1     Running   0          31s   10.244.0.6   k0s-w1   <none>           <none>
+ id |          text          |             zeit              
+----+------------------------+-------------------------------
+  1 | geschrieben auf k0s-w2 | 2026-11-12 18:24:41.505541+00
+(1 row)
+
+╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ResourceName                             │ Node     │ Layers                  │ Usage  │ Conns │    State │ Vote │
+╞══════════════════════════════════════════════════════════════════════════════════════════════════════════════════╡
+│ pvc-0d903f58-5691-4cda-bb3e-a155de0ced03 │ k0s-ctrl │ DRBD,STORAGE            │ Unused │ Ok    │ Diskless │ Yes  │
+│ pvc-0d903f58-5691-4cda-bb3e-a155de0ced03 │ k0s-w1   │ DRBD,WRITECACHE,STORAGE │ InUse  │ Ok    │ UpToDate │ Yes  │
+│ pvc-0d903f58-5691-4cda-bb3e-a155de0ced03 │ k0s-w2   │ DRBD,WRITECACHE,STORAGE │ Unused │ Ok    │ UpToDate │ Yes  │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+node/k0s-w2 uncordoned

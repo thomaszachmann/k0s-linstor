@@ -1,0 +1,35 @@
+rule_files: [linstor-alerts.yaml]
+evaluation_interval: 1m
+tests:
+  - interval: 1m
+    input_series:
+      - series: 'drbd_connection_state{name="pvc-a",conn_name="k0s-w3",drbd_connection_state="StandAlone"}'
+        values: '0 0 1x10'
+      - series: 'drbd_device_quorum{name="pvc-a",instance="k0s-w2"}'
+        values: '1 1 0x5'
+      - series: 'linstor_storage_pool_capacity_free_bytes{node="k0s-w1",storage_pool="pool_data"}'
+        values: '10x30'
+      - series: 'linstor_storage_pool_capacity_total_bytes{node="k0s-w1",storage_pool="pool_data"}'
+        values: '100x30'
+      - series: 'linstor_storage_pool_capacity_total_bytes{node="k0s-ctrl",storage_pool="DfltDisklessStorPool"}'
+        values: '0x30'
+      - series: 'linstor_storage_pool_capacity_free_bytes{node="k0s-ctrl",storage_pool="DfltDisklessStorPool"}'
+        values: '0x30'
+    alert_rule_test:
+      - eval_time: 9m
+        alertname: DrbdVerbindungGetrennt
+        exp_alerts:
+          - exp_labels: {severity: critical, name: pvc-a, conn_name: k0s-w3, drbd_connection_state: StandAlone}
+            exp_annotations:
+              summary: "DRBD pvc-a: Verbindung zu k0s-w3 ist StandAlone"
+              description: "StandAlone bedeutet fast immer Split-Brain (Kapitel 11)."
+      - eval_time: 4m
+        alertname: DrbdOhneQuorum
+        exp_alerts:
+          - exp_labels: {severity: critical, name: pvc-a, instance: k0s-w2}
+            exp_annotations: {summary: "DRBD pvc-a auf k0s-w2 hat kein Quorum"}
+      - eval_time: 20m
+        alertname: LinstorPoolFastVoll
+        exp_alerts:
+          - exp_labels: {severity: warning, node: k0s-w1, storage_pool: pool_data}
+            exp_annotations: {summary: "Pool pool_data auf k0s-w1 hat weniger als 15 % frei"}

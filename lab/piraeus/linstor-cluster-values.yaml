@@ -1,0 +1,50 @@
+# Piraeus nur als CSI-Treiber gegen den externen LINSTOR-Controller (VIP im Storage-Netz)
+linstorCluster:
+  externalController:
+    url: http://10.10.0.100:3370
+  # Kein Node trägt dieses Label: der Operator startet keine eigenen Satellites.
+  nodeSelector:
+    piraeus.io/managed-satellite: "true"
+  highAvailabilityController:
+    enabled: false
+  affinityController:
+    enabled: false
+  nfsServer:
+    enabled: false
+  # Derselbe nodeSelector gilt sonst auch für die CSI-Pods. null entfernt ihn dort wieder.
+  # CSI 1.13 setzt LINSTOR 1.35 voraus. Mit LINSTOR 1.33 stand hier v1.12.0 (Kapitel 8, 15).
+  csiController:
+    podTemplate:
+      spec:
+        nodeSelector:
+          piraeus.io/managed-satellite: null
+        containers:
+          - name: linstor-csi
+            image: quay.io/piraeusdatastore/piraeus-csi:v1.13.1
+  csiNode:
+    podTemplate:
+      spec:
+        nodeSelector:
+          piraeus.io/managed-satellite: null
+        containers:
+          - name: linstor-csi
+            image: quay.io/piraeusdatastore/piraeus-csi:v1.13.1
+            # k0s legt den kubelet-Zustand unter /var/lib/k0s/kubelet ab, nicht /var/lib/kubelet.
+            volumeMounts:
+              - name: publish-dir
+                mountPath: /var/lib/k0s/kubelet
+                mountPropagation: Bidirectional
+          - name: csi-node-driver-registrar
+            env:
+              - name: KUBELET_REGISTRATION_PATH
+                value: /var/lib/k0s/kubelet/plugins/linstor.csi.linbit.com/csi.sock
+        volumes:
+          - name: publish-dir
+            hostPath:
+              path: /var/lib/k0s/kubelet
+          - name: registration-dir
+            hostPath:
+              path: /var/lib/k0s/kubelet/plugins_registry
+          - name: plugin-dir
+            hostPath:
+              path: /var/lib/k0s/kubelet/plugins/linstor.csi.linbit.com

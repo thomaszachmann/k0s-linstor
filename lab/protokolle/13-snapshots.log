@@ -1,0 +1,19 @@
+### snapshot-controller
+STATUS: deployed
+Waiting for deployment "snapshot-controller" rollout to finish: 0 of 1 updated replicas are available...
+deployment "snapshot-controller" successfully rolled out
+volumegroupsnapshotclasses.groupsnapshot.storage.k8s.io    2026-11-12T20:04:10Z
+volumegroupsnapshotcontents.groupsnapshot.storage.k8s.io   2026-11-12T20:04:11Z
+volumegroupsnapshots.groupsnapshot.storage.k8s.io          2026-11-12T20:04:10Z
+volumesnapshotclasses.snapshot.storage.k8s.io              2026-11-12T20:04:10Z
+volumesnapshotcontents.snapshot.storage.k8s.io             2026-11-12T20:04:11Z
+volumesnapshots.snapshot.storage.k8s.io                    2026-11-12T20:04:11Z
+### snapshot versuch
+volumesnapshotclass.snapshot.storage.k8s.io/linstor-snapshots created
+volumesnapshot.snapshot.storage.k8s.io/pg-vor-update created
+NAME            READYTOUSE   SOURCEPVC   SOURCESNAPSHOTCONTENT   RESTORESIZE   SNAPSHOTCLASS       SNAPSHOTCONTENT                                    CREATIONTIME   AGE
+pg-vor-update   false        data-pg-0                                         linstor-snapshots   snapcontent-bb6cd7bc-478b-4be0-977c-0f4b3c20a03e                  30s
+  Type    Reason            Age   From                 Message
+  ----    ------            ----  ----                 -------
+  Normal  CreatingSnapshot  30s   snapshot-controller  Waiting for a snapshot demo/pg-vor-update to be created by the CSI driver.
+Failed to check and update snapshot content: failed to take snapshot of the volume pvc-0d903f58-5691-4cda-bb3e-a155de0ced03: "rpc error: code = Internal desc = failed to create snapshot: failed to create snapshots: Message: 'Storage driver 'LVM' does not support snapshots.'; Details: 'Used for storage pool 'pool_data' on 'k0s-w1'.\nResource: pvc-0d903f58-5691-4cda-bb3e-a155de0ced03, Snapshot: snapshot-bb6cd7bc-478b-4be0-977c-0f4b3c20a03e'; Reports: '[6AF6112C-00000-000004]'"

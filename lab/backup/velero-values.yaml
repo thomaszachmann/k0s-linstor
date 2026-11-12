@@ -1,0 +1,24 @@
+# Velero mit Dateisicherung (Kopia) in SeaweedFS auf k0s-ctrl
+initContainers:
+  - name: velero-plugin-for-aws
+    image: velero/velero-plugin-for-aws:v1.14.4
+    volumeMounts: [{mountPath: /target, name: plugins}]
+configuration:
+  backupStorageLocation:
+    - name: default
+      provider: aws
+      bucket: velero
+      config:
+        region: us-east-1
+        s3ForcePathStyle: "true"
+        s3Url: http://172.16.0.176:8333
+  # LVM ohne thin kann keine Snapshots: alle Volumes per Dateisicherung
+  defaultVolumesToFsBackup: true
+snapshotsEnabled: false
+deployNodeAgent: true
+nodeAgent:
+  # k0s: kubelet liegt unter /var/lib/k0s/kubelet
+  podVolumePath: /var/lib/k0s/kubelet/pods
+  pluginVolumePath: /var/lib/k0s/kubelet/plugins
+credentials:
+  existingSecret: velero-s3

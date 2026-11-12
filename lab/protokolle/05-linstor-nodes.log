@@ -1,0 +1,160 @@
+SUCCESS:
+Description:
+    New node 'k0s-w1' registered.
+Details:
+    Node 'k0s-w1' UUID is: 4fd5d71a-6a96-41a9-a8cf-115bd1e178c9
+SUCCESS:
+Description:
+    Node 'k0s-w1' authenticated
+Details:
+    Supported storage providers: [diskless, lvm, lvm_thin, file, file_thin, remote_spdk, ebs_init, ebs_target]
+    Supported resource layers  : [drbd, luks, writecache, cache, bcache, storage]
+    Unsupported storage providers:
+        ZFS: 'cat /sys/module/zfs/version' returned with exit code 1
+             IO exception occured when running 'zfs --version': Cannot run program "zfs": Exec failed, error: 2 (No such file or directory) 
+        ZFS_THIN: 'cat /sys/module/zfs/version' returned with exit code 1
+                  IO exception occured when running 'zfs --version': Cannot run program "zfs": Exec failed, error: 2 (No such file or directory) 
+        SPDK: IO exception occured when running 'rpc.py spdk_get_version': Cannot run program "rpc.py": Exec failed, error: 2 (No such file or directory) 
+        STORAGE_SPACES: This tool does not exist on the Linux platform.
+        STORAGE_SPACES_THIN: This tool does not exist on the Linux platform.
+    
+    Unsupported resource layers:
+        NVME: 'modprobe nvmet_rdma' returned with exit code 1
+              'modprobe nvme_rdma' returned with exit code 1
+SUCCESS:
+Description:
+    New node 'k0s-w2' registered.
+Details:
+    Node 'k0s-w2' UUID is: dba615be-f69f-4d5b-98ac-1ea3419e0d04
+SUCCESS:
+Description:
+    Node 'k0s-w2' authenticated
+Details:
+    Supported storage providers: [diskless, lvm, lvm_thin, file, file_thin, remote_spdk, ebs_init, ebs_target]
+    Supported resource layers  : [drbd, luks, writecache, cache, bcache, storage]
+    Unsupported storage providers:
+        ZFS: 'cat /sys/module/zfs/version' returned with exit code 1
+             IO exception occured when running 'zfs --version': Cannot run program "zfs": Exec failed, error: 2 (No such file or directory) 
+        ZFS_THIN: 'cat /sys/module/zfs/version' returned with exit code 1
+                  IO exception occured when running 'zfs --version': Cannot run program "zfs": Exec failed, error: 2 (No such file or directory) 
+        SPDK: IO exception occured when running 'rpc.py spdk_get_version': Cannot run program "rpc.py": Exec failed, error: 2 (No such file or directory) 
+        STORAGE_SPACES: This tool does not exist on the Linux platform.
+        STORAGE_SPACES_THIN: This tool does not exist on the Linux platform.
+    
+    Unsupported resource layers:
+        NVME: 'modprobe nvmet_rdma' returned with exit code 1
+              'modprobe nvme_rdma' returned with exit code 1
+SUCCESS:
+Description:
+    New node 'k0s-w3' registered.
+Details:
+    Node 'k0s-w3' UUID is: d58d5134-e891-444a-83ee-b53c3dbb4660
+SUCCESS:
+Description:
+    Node 'k0s-w3' authenticated
+Details:
+    Supported storage providers: [diskless, lvm, lvm_thin, file, file_thin, remote_spdk, ebs_init, ebs_target]
+    Supported resource layers  : [drbd, luks, writecache, cache, bcache, storage]
+    Unsupported storage providers:
+        ZFS: 'cat /sys/module/zfs/version' returned with exit code 1
+             IO exception occured when running 'zfs --version': Cannot run program "zfs": Exec failed, error: 2 (No such file or directory) 
+        ZFS_THIN: 'cat /sys/module/zfs/version' returned with exit code 1
+                  IO exception occured when running 'zfs --version': Cannot run program "zfs": Exec failed, error: 2 (No such file or directory) 
+        SPDK: IO exception occured when running 'rpc.py spdk_get_version': Cannot run program "rpc.py": Exec failed, error: 2 (No such file or directory) 
+        STORAGE_SPACES: This tool does not exist on the Linux platform.
+        STORAGE_SPACES_THIN: This tool does not exist on the Linux platform.
+    
+    Unsupported resource layers:
+        NVME: 'modprobe nvmet_rdma' returned with exit code 1
+              'modprobe nvme_rdma' returned with exit code 1
+SUCCESS:
+Description:
+    New node 'k0s-ctrl' registered.
+Details:
+    Node 'k0s-ctrl' UUID is: dc6fe0ba-b203-491c-a66e-42933d8adffa
+SUCCESS:
+Description:
+    Node 'k0s-ctrl' authenticated
+Details:
+    Supported storage providers: [diskless, lvm, lvm_thin, file, file_thin, remote_spdk, ebs_init, ebs_target]
+    Supported resource layers  : [drbd, luks, writecache, cache, bcache, storage]
+    Unsupported storage providers:
+        ZFS: 'cat /sys/module/zfs/version' returned with exit code 1
+             IO exception occured when running 'zfs --version': Cannot run program "zfs": Exec failed, error: 2 (No such file or directory) 
+        ZFS_THIN: 'cat /sys/module/zfs/version' returned with exit code 1
+                  IO exception occured when running 'zfs --version': Cannot run program "zfs": Exec failed, error: 2 (No such file or directory) 
+        SPDK: IO exception occured when running 'rpc.py spdk_get_version': Cannot run program "rpc.py": Exec failed, error: 2 (No such file or directory) 
+        STORAGE_SPACES: This tool does not exist on the Linux platform.
+        STORAGE_SPACES_THIN: This tool does not exist on the Linux platform.
+    
+    Unsupported resource layers:
+        NVME: 'modprobe nvmet_rdma' returned with exit code 1
+              'modprobe nvme_rdma' returned with exit code 1
+╭───────────────────────────────────────────────────────────╮
+│ Node     │ NodeType  │ Addresses                 │ State  │
+╞═══════════════════════════════════════════════════════════╡
+│ k0s-ctrl │ SATELLITE │ 172.16.0.176:3366 (PLAIN) │ Online │
+│ k0s-w1   │ SATELLITE │ 10.10.0.11:3366 (PLAIN)   │ Online │
+│ k0s-w2   │ SATELLITE │ 10.10.0.12:3366 (PLAIN)   │ Online │
+│ k0s-w3   │ SATELLITE │ 10.10.0.13:3366 (PLAIN)   │ Online │
+╰───────────────────────────────────────────────────────────╯
+SUCCESS:
+Description:
+    New netInterface 'mgmt' on node 'k0s-w1' registered.
+Details:
+    NetInterface 'mgmt' on node 'k0s-w1' UUID is: 3d3a61fd-05f0-4438-9492-49aeff5cfe6e
+SUCCESS:
+Description:
+    New netInterface 'mgmt' on node 'k0s-w2' registered.
+Details:
+    NetInterface 'mgmt' on node 'k0s-w2' UUID is: 35738b49-a7bb-40ac-ab7f-68f041d57d9c
+SUCCESS:
+Description:
+    New netInterface 'mgmt' on node 'k0s-w3' registered.
+Details:
+    NetInterface 'mgmt' on node 'k0s-w3' UUID is: 4352a76f-bbab-4a93-aad4-c9b803c881f8
+SUCCESS:
+Description:
+    New netInterface 'mgmt' on node 'k0s-ctrl' registered.
+Details:
+    NetInterface 'mgmt' on node 'k0s-ctrl' UUID is: c3821d4a-56e7-4d60-8a4f-e436c978e800
+╭─────────────────────────────────────────────────────────────────╮
+│ k0s-w1    │ NetInterface │ IP           │ Port │ EncryptionType │
+╞═════════════════════════════════════════════════════════════════╡
+│ + StltCon │ default      │ 10.10.0.11   │ 3366 │ PLAIN          │
+│ +         │ mgmt         │ 172.16.0.186 │      │                │
+╰─────────────────────────────────────────────────────────────────╯
+╭─────────────────────────────────────────────────────────────────╮
+│ k0s-ctrl  │ NetInterface │ IP           │ Port │ EncryptionType │
+╞═════════════════════════════════════════════════════════════════╡
+│ + StltCon │ default      │ 172.16.0.176 │ 3366 │ PLAIN          │
+│ +         │ mgmt         │ 172.16.0.176 │      │                │
+╰─────────────────────────────────────────────────────────────────╯
+    Successfully set property key(s): Paths/witness/k0s-w1,Paths/witness/k0s-ctrl
+    (k0s-w1) Node changes applied.
+    (k0s-ctrl) Node changes applied.
+    Successfully set property key(s): Paths/witness/k0s-w2,Paths/witness/k0s-ctrl
+    (k0s-w2) Node changes applied.
+    (k0s-ctrl) Node changes applied.
+    Successfully set property key(s): Paths/witness/k0s-w3,Paths/witness/k0s-ctrl
+    (k0s-w3) Node changes applied.
+    (k0s-ctrl) Node changes applied.
+    Successfully set property key(s): Aux/zone
+    (k0s-w1) Node changes applied.
+    Successfully set property key(s): Aux/zone
+    (k0s-w2) Node changes applied.
+    Successfully set property key(s): Aux/zone
+    (k0s-w3) Node changes applied.
+╭────────────────────────────────╮
+│ Key                    │ Value │
+╞════════════════════════════════╡
+│ Paths/witness/k0s-ctrl │ mgmt  │
+│ Paths/witness/k0s-w1   │ mgmt  │
+╰────────────────────────────────╯
+╭───────────────────────────╮
+│ Key             │ Value   │
+╞═══════════════════════════╡
+│ Aux/zone        │ b       │
+│ CurStltConnName │ default │
+│ NodeUname       │ k0s-w2  │
+╰───────────────────────────╯

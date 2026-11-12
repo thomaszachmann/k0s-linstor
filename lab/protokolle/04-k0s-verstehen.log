@@ -1,0 +1,83 @@
+### dienste
+  k0scontroller.service loaded active running k0s - Zero Friction Kubernetes
+/etc/k0s:
+k0s.yaml
+
+/var/lib/k0s:
+bin
+etcd
+konnectivity.conf
+manifests
+pki
+NAME     STATUS   ROLES    AGE   VERSION
+k0s-w1   Ready    <none>   72m   v1.36.6+k0s
+k0s-w2   Ready    <none>   72m   v1.36.6+k0s
+etcd
+konnectivity-se
+kube-apiserver
+kube-controller
+kube-scheduler
+  k0sworker.service loaded active running k0s - Zero Friction Kubernetes
+containerd
+kubelet
+bin
+containerd
+images
+kubelet
+kubelet.conf
+worker-profile.yaml
+### sysinfo
+Total memory: 3.8 GiB (pass)
+File system of /var/lib/k0s: ext4 (pass)
+Disk space available for /var/lib/k0s: 22.5 GiB (pass)
+Relative disk space available for /var/lib/k0s: 80% (pass)
+Name resolution: localhost: [::1 127.0.0.1] (pass)
+Containerd config snippets in /etc/k0s/containerd.d/: no config snippets found (pass)
+Operating system: Linux (pass)
+  Linux kernel release: 6.8.0-124-generic (pass)
+  Max. file descriptors per process: current: 1048575 / max: 1048576 (pass)
+  AppArmor: active (pass)
+  Executable in PATH: modprobe: /usr/sbin/modprobe (pass)
+  Executable in PATH: mount: /usr/bin/mount (pass)
+  Executable in PATH: umount: /usr/bin/umount (pass)
+  /proc file system: mounted (0x9fa0) (pass)
+  Control Groups: version 2 (pass)
+    cgroup controller "cpu": available (is a listed root controller) (pass)
+    cgroup controller "cpuacct": available (via cpu in version 2) (pass)
+    cgroup controller "cpuset": available (is a listed root controller) (pass)
+    cgroup controller "memory": available (is a listed root controller) (pass)
+    cgroup controller "devices": available (device filters attachable) (pass)
+### logs ueber konnectivity
+2026-11-12 18:30:14.109 UTC [26] LOG:  checkpoint starting: time
+2026-11-12 18:30:18.797 UTC [26] LOG:  checkpoint complete: wrote 49 buffers (0.3%); 0 WAL file(s) added, 0 removed, 0 recycled; write=4.643 s, sync=0.020 s, total=4.689 s; sync files=14, longest=0.008 s, average=0.002 s; distance=270 kB, estimate=270 kB; lsn=0/1559920, redo lsn=0/1559890
+### journal
+Nov 12 18:45:35 k0s-ctrl k0s[28683]: time="2026-11-12 18:45:35" level=info msg="[core] [Channel #2472 SubChannel #2473] Subchannel Connectivity change to SHUTDOWN" component=grpc
+Nov 12 18:45:35 k0s-ctrl k0s[28683]: time="2026-11-12 18:45:35" level=info msg="[core] [Channel #2472 SubChannel #2473] Subchannel deleted" component=grpc
+Nov 12 18:45:35 k0s-ctrl k0s[28683]: time="2026-11-12 18:45:35" level=info msg="[core] [Channel #2472] Channel deleted" component=grpc
+### containerd
+CONTAINER                                                           IMAGE                                                             RUNTIME                  
+216a9434add00f2b3d18b85b41cab346e4fccff25581fb1b0a3ff24e2570d4f6    quay.io/piraeusdatastore/piraeus-csi:v1.12.0                      io.containerd.runc.v2    
+25249b5d257a5fd1fe6be229d678bf5f3bf28d5f0583905e5199f3f06655ffc4    registry.k8s.io/sig-storage/livenessprobe:v2.20.0                 io.containerd.runc.v2    
+277f8e0cf6753978eef8e293a5afe0678db7ae054f56cf6de64ae28629a6783e    quay.io/k0sproject/cni-node:v1.9.1-k0s.2                          io.containerd.runc.v2    
+### k0sctl apply mit zonen-labels
+level=info msg="==> Running phase: Connect to hosts"
+level=info msg="==> Running phase: Detect host operating systems"
+level=info msg="==> Running phase: Prepare hosts"
+level=info msg="==> Running phase: Gather host facts"
+level=info msg="==> Running phase: Validate hosts"
+level=info msg="==> Running phase: Gather k0s facts"
+level=info msg="==> Running phase: Validate facts"
+level=info msg="==> Running phase: Run Before Apply Hooks"
+level=info msg="==> Running phase: Reinstall"
+level=info msg="172.16.0.186:22: reinstalling k0s"
+level=info msg="172.16.0.36:22: reinstalling k0s"
+level=info msg="172.16.0.72:22: reinstalling k0s"
+level=info msg="==> Running phase: Run After Apply Hooks"
+level=info msg="==> Running phase: Disconnect from hosts"
+level=info msg="==> Finished in 1m2s"
+NAME     STATUS   ROLES    AGE   VERSION       ZONE
+k0s-w1   Ready    <none>   73m   v1.36.6+k0s   a
+k0s-w2   Ready    <none>   73m   v1.36.6+k0s   b
+k0s-w3   Ready    <none>   73m   v1.36.6+k0s   a
+NAME   READY   STATUS    RESTARTS   AGE
+pg-0   1/1     Running   0          22m

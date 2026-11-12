@@ -1,0 +1,6 @@
+*.pdf
+!buch/bilder/*.pdf
+.DS_Store
+lab/backup/s3.json
+lab/backup/velero-credentials
+!/k0s-und-linstor.pdf

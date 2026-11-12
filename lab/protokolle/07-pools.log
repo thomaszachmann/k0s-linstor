@@ -1,0 +1,133 @@
+    New storage pool 'pool_data' on node 'k0s-w1' registered.
+    (k0s-w1) Changes applied to storage pool 'pool_data' of node 'k0s-w1'
+    Storage pool updated on 'k0s-w1'
+    New storage pool 'pool_data' on node 'k0s-w2' registered.
+    (k0s-w2) Changes applied to storage pool 'pool_data' of node 'k0s-w2'
+    Storage pool updated on 'k0s-w2'
+    New storage pool 'pool_data' on node 'k0s-w3' registered.
+    (k0s-w3) Changes applied to storage pool 'pool_data' of node 'k0s-w3'
+    Storage pool updated on 'k0s-w3'
+    New storage pool 'pool_nvme' on node 'k0s-w1' registered.
+    (k0s-w1) Changes applied to storage pool 'pool_nvme' of node 'k0s-w1'
+    Storage pool updated on 'k0s-w1'
+    New storage pool 'pool_nvme' on node 'k0s-w2' registered.
+    (k0s-w2) Changes applied to storage pool 'pool_nvme' of node 'k0s-w2'
+    Storage pool updated on 'k0s-w2'
+    New storage pool 'pool_nvme' on node 'k0s-w3' registered.
+    (k0s-w3) Changes applied to storage pool 'pool_nvme' of node 'k0s-w3'
+    Storage pool updated on 'k0s-w3'
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ StoragePool          │ Node     │ Driver   │ PoolName │ FreeCapacity │ TotalCapacity │ CanSnapshots │ State │ SharedName                    │
+╞═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╡
+│ DfltDisklessStorPool │ k0s-ctrl │ DISKLESS │          │              │               │ False        │ Ok    │ k0s-ctrl;DfltDisklessStorPool │
+│ DfltDisklessStorPool │ k0s-w1   │ DISKLESS │          │              │               │ False        │ Ok    │ k0s-w1;DfltDisklessStorPool   │
+│ DfltDisklessStorPool │ k0s-w2   │ DISKLESS │          │              │               │ False        │ Ok    │ k0s-w2;DfltDisklessStorPool   │
+│ DfltDisklessStorPool │ k0s-w3   │ DISKLESS │          │              │               │ False        │ Ok    │ k0s-w3;DfltDisklessStorPool   │
+│ pool_data            │ k0s-w1   │ LVM      │ data     │    30.00 GiB │     30.00 GiB │ False        │ Ok    │ k0s-w1;pool_data              │
+│ pool_data            │ k0s-w2   │ LVM      │ data     │    30.00 GiB │     30.00 GiB │ False        │ Ok    │ k0s-w2;pool_data              │
+│ pool_data            │ k0s-w3   │ LVM      │ data     │    30.00 GiB │     30.00 GiB │ False        │ Ok    │ k0s-w3;pool_data              │
+│ pool_nvme            │ k0s-w1   │ LVM      │ cache    │     2.00 GiB │      2.00 GiB │ False        │ Ok    │ k0s-w1;pool_nvme              │
+│ pool_nvme            │ k0s-w2   │ LVM      │ cache    │     2.00 GiB │      2.00 GiB │ False        │ Ok    │ k0s-w2;pool_nvme              │
+│ pool_nvme            │ k0s-w3   │ LVM      │ cache    │     2.00 GiB │      2.00 GiB │ False        │ Ok    │ k0s-w3;pool_nvme              │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+    New resource group 'rg-k8s' created.
+    Successfully set property key(s): Writecache/PoolName
+    Resource group 'rg-k8s' modified.
+    Successfully set property key(s): Writecache/Size
+    Resource group 'rg-k8s' modified.
+    Successfully set property key(s): DrbdOptions/Resource/on-no-quorum,DrbdOptions/Resource/on-suspended-primary-outdated,DrbdOptions/Resource/quorum
+    Resource group 'rg-k8s' modified.
+    New volume group with number '0' of resource group 'rg-k8s' created.
+╭────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ResourceGroup  │ SelectFilter                                  │ VlmNrs │ Properties                                                         │ Description │
+╞════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╡
+│ DfltRscGrp     │ PlaceCount: 2                                 │        │                                                                    │             │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┤
+│ linstor-db-grp │ PlaceCount: 3                                 │ 0      │ DrbdOptions/Resource/auto-promote=no                               │             │
+│                │ StoragePool(s): pool_data                     │        │ DrbdOptions/Resource/on-no-data-accessible=io-error                │             │
+│                │ DisklessOnRemaining: True                     │        │ DrbdOptions/Resource/on-no-quorum=io-error                         │             │
+│                │                                               │        │ DrbdOptions/Resource/on-suspended-primary-outdated=force-secondary │             │
+│                │                                               │        │ DrbdOptions/Resource/quorum=majority                               │             │
+│                │                                               │        │ Internal/Drbd/QuorumSetBy=user                                     │             │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┤
+│ rg-k8s         │ PlaceCount: 2                                 │ 0      │ DrbdOptions/Resource/on-no-quorum=suspend-io                       │             │
+│                │ StoragePool(s): pool_data                     │        │ DrbdOptions/Resource/on-suspended-primary-outdated=force-secondary │             │
+│                │ ReplicasOnDifferent: ['Aux/zone']             │        │ DrbdOptions/Resource/quorum=majority                               │             │
+│                │ LayerStack: ['DRBD', 'WRITECACHE', 'STORAGE'] │        │ Internal/Drbd/QuorumSetBy=user                                     │             │
+│                │                                               │        │ Writecache/PoolName=pool_nvme                                      │             │
+│                │                                               │        │ Writecache/Size=5%                                                 │             │
+╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+    Volume definition with number '0' successfully  created in resource definition 'test1'.
+    New resource definition 'test1' created.
+    Successfully set property key(s): StorPoolName
+    Successfully set property key(s): StorPoolName
+    Resource 'test1' successfully autoplaced on 2 nodes
+    Used nodes (storage pool name): 'k0s-w1 (pool_data)', 'k0s-w2 (pool_data)'
+INFO:
+    Updated test1 DRBD auto verify algorithm to 'crct10dif'
+    Successfully set property key(s): StorPoolName
+INFO:
+    Tie breaker resource 'test1' created on k0s-ctrl
+INFO:
+    Resource-definition property 'DrbdOptions/Resource/quorum' updated from undefined to 'majority' by User
+    (k0s-ctrl) Resource 'test1' [DRBD] adjusted.
+    Added peer(s) 'k0s-w2', 'k0s-w1' to resource 'test1' on 'k0s-ctrl'
+    (k0s-w2) Volume number 0 of resource 'test1' [LVM] created
+    (k0s-w2) Volume number 0 of resource 'test1.cache' [LVM] created
+    (k0s-w2) Resource 'test1' [DRBD] adjusted.
+    Created resource 'test1' on 'k0s-w2'
+    (k0s-w1) Volume number 0 of resource 'test1' [LVM] created
+    (k0s-w1) Volume number 0 of resource 'test1.cache' [LVM] created
+    (k0s-w1) Resource 'test1' [DRBD] adjusted.
+    Created resource 'test1' on 'k0s-w1'
+    Resource 'test1' on 'k0s-w2' ready
+    Resource group: rg-k8s
+    Resource 'test1' on 'k0s-w1' ready
+    Resource group: rg-k8s
+    (k0s-w2) Resource 'test1' [DRBD] adjusted.
+    (k0s-ctrl) Resource 'test1' [DRBD] adjusted.
+    (k0s-w1) Resource 'test1' [DRBD] adjusted.
+    (k0s-w2) Resource 'test1' [DRBD] adjusted.
+    Added peer(s) 'k0s-ctrl' to resource 'test1' on 'k0s-w2'
+    (k0s-ctrl) Resource 'test1' [DRBD] adjusted.
+    Created resource 'test1' on 'k0s-ctrl'
+    (k0s-w1) Resource 'test1' [DRBD] adjusted.
+    Added peer(s) 'k0s-ctrl' to resource 'test1' on 'k0s-w1'
+    Resource 'test1' on 'k0s-ctrl' ready
+    Resource group: rg-k8s
+╭────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ResourceName │ Node     │ Layers                  │ Usage  │ Conns │              State │ Vote │
+╞════════════════════════════════════════════════════════════════════════════════════════════════╡
+│ test1        │ k0s-ctrl │ DRBD,STORAGE            │ Unused │ Ok    │           Diskless │ Yes  │
+│ test1        │ k0s-w1   │ DRBD,WRITECACHE,STORAGE │ Unused │ Ok    │           UpToDate │ Yes  │
+│ test1        │ k0s-w2   │ DRBD,WRITECACHE,STORAGE │ Unused │ Ok    │ SyncTarget(62.30%) │ Yes  │
+╰────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ Resource │ Node     │ StoragePool          │ VolNr │ MinorNr │ DeviceName    │ Allocated │ InUse  │              State │ Repl                       │
+╞═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╡
+│ test1    │ k0s-ctrl │ DfltDisklessStorPool │     0 │    1001 │ /dev/drbd1001 │           │ Unused │           Diskless │ Established(2)             │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┤
+│ test1    │ k0s-w1   │ pool_data            │     0 │    1001 │ /dev/drbd1001 │  1.05 GiB │ Unused │           UpToDate │ k0s-ctrl: Established      │
+│          │          │                      │       │         │               │           │        │                    │ k0s-w2: SyncSource         │
+├╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌┤
+│ test1    │ k0s-w2   │ pool_data            │     0 │    1001 │ /dev/drbd1001 │  1.05 GiB │ Unused │ SyncTarget(62.30%) │ k0s-ctrl: Established      │
+│          │          │                      │       │         │               │           │        │                    │ k0s-w1: SyncTarget(62.30%) │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+### writecache auf w1
+  LV                VG    LSize  
+  test1.cache_00000 cache  52.00m
+  linstor_db_00000  data  204.00m
+  test1_00000       data    1.00g
+NAME                                 MAJ:MIN  RM   SIZE RO TYPE MOUNTPOINTS
+sdb                                    8:16    0    32G  0 disk 
+├─sdb1                                 8:17    0    30G  0 part 
+│ ├─data-linstor_db_00000            252:0     0   204M  0 lvm  
+│ │ └─drbd1000                       147:1000  0 203.9M  0 disk 
+│ └─data-test1_00000                 252:1     0     1G  0 lvm  
+│   └─linstor_writecache_test1_00000 252:3     0     1G  0 dm   
+│     └─drbd1001                     147:1001  0     1G  0 disk 
+└─sdb2                                 8:18    0     2G  0 part 
+  └─cache-test1.cache_00000          252:2     0    52M  0 lvm  
+    └─linstor_writecache_test1_00000 252:3     0     1G  0 dm   
+      └─drbd1001                     147:1001  0     1G  0 disk 
+linstor_writecache_test1_00000: 0 2105344 writecache s 252:1 252:2 4096 0

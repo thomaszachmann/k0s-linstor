@@ -1,0 +1,31 @@
+NAME     STATUS   ROLES    AGE   VERSION       INTERNAL-IP    EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION              CONTAINER-RUNTIME
+k0s-w1   Ready    <none>   50s   v1.36.6+k0s   172.16.0.186   <none>        Ubuntu 24.04.5 LTS   6.8.0-124-generic (amd64)   containerd://2.3.6
+k0s-w2   Ready    <none>   49s   v1.36.6+k0s   172.16.0.36    <none>        Ubuntu 24.04.5 LTS   6.8.0-124-generic (amd64)   containerd://2.3.6
+k0s-w3   Ready    <none>   50s   v1.36.6+k0s   172.16.0.72    <none>        Ubuntu 24.04.5 LTS   6.8.0-124-generic (amd64)   containerd://2.3.6
+NAMESPACE     NAME                              READY   STATUS              RESTARTS   AGE
+kube-system   coredns-75c6755584-86lrc          0/1     ContainerCreating   0          52s
+kube-system   coredns-7c5b856895-8ddxk          0/1     ContainerCreating   0          41s
+kube-system   coredns-7c5b856895-d7tbq          0/1     ContainerCreating   0          42s
+kube-system   konnectivity-agent-kgjwc          0/1     ContainerCreating   0          50s
+kube-system   konnectivity-agent-phkzt          0/1     ContainerCreating   0          49s
+kube-system   konnectivity-agent-v86qh          0/1     ContainerCreating   0          50s
+kube-system   kube-proxy-h2v8k                  1/1     Running             0          50s
+kube-system   kube-proxy-nmfqg                  1/1     Running             0          49s
+kube-system   kube-proxy-z29bl                  1/1     Running             0          50s
+kube-system   kube-router-bk5j6                 1/1     Running             0          50s
+kube-system   kube-router-gnntr                 1/1     Running             0          50s
+kube-system   kube-router-sqxsj                 1/1     Running             0          49s
+kube-system   metrics-server-5749cd655b-nj94z   0/1     ContainerCreating   0          52s
+Version: v1.36.6+k0s.0
+Process ID: 28683
+Role: controller
+Workloads: false
+SingleNode: false
+{"members":{"k0s-ctrl":"https://172.16.0.176:2380"}}
+Version: v1.36.6+k0s.0
+Process ID: 29001
+Role: worker
+Workloads: true
+SingleNode: false
+Kube-api probing successful: true
+Kube-api probing last error:  

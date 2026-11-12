@@ -1,0 +1,173 @@
+### falsche reihenfolge: csi 1.13.1 gegen linstor 1.33.3 20:11:05
+STATUS: deployed
+NAME                                                   READY   STATUS             RESTARTS      AGE
+linstor-csi-controller-6c9bc687dd-bhsv5                5/6     CrashLoopBackOff   11 (8s ago)   70s
+linstor-csi-node-647g6                                 2/3     CrashLoopBackOff   5 (6s ago)    66s
+linstor-csi-node-6dm8c                                 2/3     CrashLoopBackOff   5 (8s ago)    69s
+linstor-csi-node-lt7fl                                 2/3     CrashLoopBackOff   5 (1s ago)    62s
+piraeus-operator-controller-manager-54fd7c49f9-4q2pz   1/1     Running            0             43m
+time="2026-11-12T20:11:49Z" level=fatal msg="LINSTOR 1.33.3 (REST API 1.27.0) is not supported: the driver requires REST API 1.29 or newer in the 1.x series, shipped with LINSTOR 1.35"
+## datenbank waehrend csi-crash
+20:12:24 ok
+20:12:25 ok
+### zurueck auf csi 1.12.0 20:12:25
+STATUS: deployed
+daemon set "linstor-csi-node" successfully rolled out
+deployment "linstor-csi-controller" successfully rolled out
+linstor-csi-controller-6c9bc687dd-bhsv5 5/6 Terminating
+linstor-csi-controller-85987c8cf6-dh45v 6/6 Running
+linstor-csi-node-62d7n 3/3 Running
+linstor-csi-node-rl6tc 3/3 Running
+linstor-csi-node-zzplz 3/3 Running
+piraeus-operator-controller-manager-54fd7c49f9-4q2pz 1/1 Running
+### backup vor update
+Backup completed with status: Completed. You may check for more information using the commands `velero backup describe vor-linstor-update` and `velero backup logs vor-linstor-update`.
+### wo laeuft der controller
+k0s-w1: Promoter: Resource linstor_db currently active on node 'k0s-w2'
+k0s-w2: Promoter: Resource linstor_db currently active on this node
+k0s-w3: Promoter: Resource linstor_db currently active on node 'k0s-w2'
+linstor controller 1.33.3; GIT-hash: 1ff3a1ea5cb5c77100265ec442bb9a492b225145
+linstor-controller:
+  Installed: 1.33.3-1
+  Candidate: 1.35.3-1ppa1~noble1
+  Version table:
+### pakete auf w1 20:13:13
+Unpacking linstor-satellite (1.35.3-1ppa1~noble1) over (1.33.3-1) ...
+Unpacking linstor-controller (1.35.3-1ppa1~noble1) over (1.33.3-1) ...
+Unpacking linstor-common (1.35.3-1ppa1~noble1) over (1.33.3-1) ...
+Setting up linstor-common (1.35.3-1ppa1~noble1) ...
+Setting up linstor-satellite (1.35.3-1ppa1~noble1) ...
+Setting up linstor-controller (1.35.3-1ppa1~noble1) ...
+active
+disabled
+ActiveEnterTimestamp=Thu 2026-11-12 20:13:47 UTC
+╭────────────────────────────────────────────────────────────╮
+│ Node     │ NodeType  │ Addresses                 │ State   │
+╞════════════════════════════════════════════════════════════╡
+│ k0s-ctrl │ SATELLITE │ 172.16.0.176:3366 (PLAIN) │ Online  │
+│ k0s-w1   │ SATELLITE │ 10.10.0.11:3366 (PLAIN)   │ OFFLINE │
+│ k0s-w2   │ SATELLITE │ 10.10.0.12:3366 (PLAIN)   │ Online  │
+│ k0s-w3   │ SATELLITE │ 10.10.0.13:3366 (PLAIN)   │ Online  │
+╰────────────────────────────────────────────────────────────╯
+### restliche nodes 20:14:08
+k0s-w3: 1.35.3-1ppa1~noble1 controller-enabled=disabled
+k0s-ctrl: 1.35.3-1ppa1~noble1 controller-enabled=not-found
+k0s-w2: 1.35.3-1ppa1~noble1 controller-enabled=disabled
+inactive
+Error: Unable to connect to linstor://10.10.0.100: [Errno 111] Connection refused
+### controller auf w2 neu starten 20:15:29
+A dependency job for linstor-controller.service failed. See 'journalctl -xe' for details.
+controller antwortet nach 32s
+linstor controller 1.35.3; GIT-hash: 75d5fa72d504ccfe55c421ccccda9505af8371f8
+╭──────────────────────────────────────────────────────────────────────╮
+│ Node     │ Platform │ NodeType  │ Addresses                 │ State  │
+╞══════════════════════════════════════════════════════════════════════╡
+│ k0s-ctrl │ LINUX    │ SATELLITE │ 172.16.0.176:3366 (PLAIN) │ Online │
+│ k0s-w1   │ LINUX    │ SATELLITE │ 10.10.0.11:3366 (PLAIN)   │ Online │
+│ k0s-w2   │ LINUX    │ SATELLITE │ 10.10.0.12:3366 (PLAIN)   │ Online │
+│ k0s-w3   │ LINUX    │ SATELLITE │ 10.10.0.13:3366 (PLAIN)   │ Online │
+╰──────────────────────────────────────────────────────────────────────╯
+╭─────────────────────────────────────────────────────────────╮
+│ ResourceName │ Node │ Layers │ Usage │ Conns │ State │ Vote │
+╞═════════════════════════════════════════════════════════════╡
+╰─────────────────────────────────────────────────────────────╯
+k0s-w1: Promoter: Resource linstor_db currently active on node 'k0s-w3'
+k0s-w2: Promoter: Resource linstor_db currently active on node 'k0s-w3'
+k0s-w3: Promoter: Resource linstor_db currently active on this node
+### journal w2
+Nov 12 20:15:18 k0s-w2 systemd[1]: drbd-promote@linstor_db.service: Deactivated successfully.
+Nov 12 20:15:18 k0s-w2 systemd[1]: Stopped drbd-promote@linstor_db.service - Promotion of DRBD resource linstor_db.
+Nov 12 20:15:18 k0s-w2 drbd-reactor[41617]: INFO [drbd_reactor::plugin::promoter] systemd_start: systemctl start drbd-services@linstor_db.target
+Nov 12 20:15:18 k0s-w2 systemd[1]: Starting drbd-promote@linstor_db.service - Promotion of DRBD resource linstor_db...
+Nov 12 20:15:19 k0s-w2 drbd-linstor_db[90628]: linstor_db: State change failed: (-1) Multiple primaries not allowed by config
+Nov 12 20:15:19 k0s-w2 systemd[1]: drbd-promote@linstor_db.service: Skipped due to 'exec-condition'.
+Nov 12 20:15:19 k0s-w2 systemd[1]: Condition check resulted in drbd-promote@linstor_db.service - Promotion of DRBD resource linstor_db being skipped.
+Nov 12 20:15:19 k0s-w2 systemd[1]: var-lib-linstor.mount: Bound to unit drbd-promote@linstor_db.service, but unit isn't active.
+Nov 12 20:15:19 k0s-w2 systemd[1]: Dependency failed for var-lib-linstor.mount - drbd-reactor controlled var-lib-linstor.
+Nov 12 20:15:19 k0s-w2 drbd-reactor[41617]: WARN [drbd_reactor::plugin::promoter] Starting 'linstor_db' failed: Return code not status success
+Nov 12 20:15:19 k0s-w2 drbd-reactor[41617]: INFO [drbd_reactor::plugin::promoter] stop_actions (could trigger 'on-drbd-demote-failure' actions if configured): linstor_db
+Nov 12 20:15:19 k0s-w2 drbd-reactor[41617]: INFO [drbd_reactor::plugin::promoter] stop_actions: stopping 'drbd-services@linstor_db.target'
+Nov 12 20:15:19 k0s-w2 systemd[1]: Dependency failed for linstor-controller.service - drbd-reactor controlled linstor-controller.
+Nov 12 20:15:19 k0s-w2 systemd[1]: linstor-controller.service: Job linstor-controller.service/start failed with result 'dependency'.
+Nov 12 20:15:19 k0s-w2 systemd[1]: var-lib-linstor.mount: Job var-lib-linstor.mount/start failed with result 'dependency'.
+Nov 12 20:15:19 k0s-w2 drbd-reactor[41617]: INFO [drbd_reactor::plugin::promoter] systemd_stop: systemctl stop drbd-services@linstor_db.target
+Nov 12 20:15:30 k0s-w2 systemd[1]: Starting drbd-promote@linstor_db.service - Promotion of DRBD resource linstor_db...
+Nov 12 20:15:30 k0s-w2 drbd-linstor_db[91000]: linstor_db: State change failed: (-1) Multiple primaries not allowed by config
+Nov 12 20:15:30 k0s-w2 systemd[1]: drbd-promote@linstor_db.service: Skipped due to 'exec-condition'.
+Nov 12 20:15:30 k0s-w2 systemd[1]: Condition check resulted in drbd-promote@linstor_db.service - Promotion of DRBD resource linstor_db being skipped.
+Nov 12 20:15:30 k0s-w2 systemd[1]: var-lib-linstor.mount: Bound to unit drbd-promote@linstor_db.service, but unit isn't active.
+Nov 12 20:15:30 k0s-w2 systemd[1]: Dependency failed for var-lib-linstor.mount - drbd-reactor controlled var-lib-linstor.
+Nov 12 20:15:30 k0s-w2 systemd[1]: Dependency failed for linstor-controller.service - drbd-reactor controlled linstor-controller.
+Nov 12 20:15:30 k0s-w2 systemd[1]: linstor-controller.service: Job linstor-controller.service/start failed with result 'dependency'.
+Nov 12 20:15:30 k0s-w2 systemd[1]: var-lib-linstor.mount: Job var-lib-linstor.mount/start failed with result 'dependency'.
+### db-export auf aktivem node w3 20:16:55
+linstor-client.conf
+linstor.toml
+linstor_satellite-example.toml
+Promoter: Resource linstor_db currently active on node 'k0s-w1'
+○ drbd-services@linstor_db.target
+○ ├─ drbd-promote@linstor_db.service
+○ ├─ var-lib-linstor.mount
+○ ├─ ocf.rs@linstor_vip_linstor_db.service
+○ └─ linstor-controller.service
+	at com.linbit.linstor.dbcp.DbConnectionPoolInitializer.initialize(DbConnectionPoolInitializer.java:67)
+	... 11 more
+A dependency job for linstor-controller.service failed. See 'journalctl -xe' for details.
+Promoter: Resource linstor_db currently active on node 'k0s-w1'
+○ drbd-services@linstor_db.target
+○ ├─ drbd-promote@linstor_db.service
+○ ├─ var-lib-linstor.mount
+○ ├─ ocf.rs@linstor_vip_linstor_db.service
+○ └─ linstor-controller.service
+controller wieder da nach 2s
+k0s-w1: Promoter: Resource linstor_db currently active on this node
+k0s-w2: Promoter: Resource linstor_db currently active on node 'k0s-w1'
+### db-export im wartungsmodus 20:17:34
+Disabling '/etc/drbd-reactor.d/linstor_db.toml'...
+Disabling '/etc/drbd-reactor.d/linstor_db.toml'...
+Warning: The unit file, source configuration file or drop-ins of drbd-services@linstor_db.target changed on disk. Run 'systemctl daemon-reload' to reload units.
+linstor_db role:Primary
+  disk:UpToDate open:yes
+mount: /var/lib/linstor: /dev/drbd1000 already mounted on /var/lib/linstor.
+       dmesg(1) may have more information after failed mount system call.
+ls: cannot access '/root/linstor-db-export.json': No such file or directory
+head: cannot open '/root/linstor-db-export.json' for reading: No such file or directory
+
+Enabling '/etc/drbd-reactor.d/linstor_db.toml.disabled'...
+Enabling '/etc/drbd-reactor.d/linstor_db.toml.disabled'...
+Enabling '/etc/drbd-reactor.d/linstor_db.toml.disabled'...
+controller wieder da nach 17s (20:18:02)
+Promoter: Resource linstor_db currently active on node 'k0s-w1'
+### db-export, 2. versuch 20:18:24
+## 1. standby-nodes pausieren
+Disabling '/etc/drbd-reactor.d/linstor_db.toml'...
+Disabling '/etc/drbd-reactor.d/linstor_db.toml'...
+## 2. aktiven node pausieren und kette stoppen
+Disabling '/etc/drbd-reactor.d/linstor_db.toml'...
+nicht mehr gemountet
+linstor_db role:Secondary
+  disk:UpToDate open:no
+inactive
+## 3. export von hand
+20:18:47.333 [main] ERROR LINSTOR/linstor-db -- Error getting db connection: org.h2.jdbc.JdbcSQLSyntaxErrorException: Schema "LINSTOR" not found [90079-240]
+The database has pending migrations and cannot be exported by this LINSTOR version. Either export it with the LINSTOR version that last ran on this database, or pass --migrate-before-export.
+umount: /var/lib/linstor: not mounted.
+## 4. reactor wieder an
+Enabling '/etc/drbd-reactor.d/linstor_db.toml.disabled'...
+Enabling '/etc/drbd-reactor.d/linstor_db.toml.disabled'...
+Enabling '/etc/drbd-reactor.d/linstor_db.toml.disabled'...
+controller wieder da nach 18s (20:19:10)
+Promoter: Resource linstor_db currently active on node 'k0s-w1'
+### csi 1.13.1 nach linstor 1.35 20:19:39
+STATUS: deployed
+daemon set "linstor-csi-node" successfully rolled out
+deployment "linstor-csi-controller" successfully rolled out
+linstor-csi-controller-6c9bc687dd-7k4s5 6/6 Running 0
+linstor-csi-node-q86rw 3/3 Running 0
+linstor-csi-node-rhxq4 3/3 Running 0
+linstor-csi-node-tmcmb 3/3 Running 0
+piraeus-operator-controller-manager-54fd7c49f9-4q2pz 1/1 Running 0
+Applied=True Resources applied
+Available=True Controller 1.35.3 (API: 1.29.1, Git: 75d5fa72d504ccfe55c421ccccda9505af8371f8) reachable at 'http://10.10.0.100:3370'
+Configured=True Properties applied
+20:20:04 ok

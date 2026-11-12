@@ -1,0 +1,3 @@
+[[prometheus]]
+enums = true
+address = ":9942"

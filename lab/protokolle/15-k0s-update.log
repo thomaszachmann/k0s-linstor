@@ -1,0 +1,49 @@
+### k0s update 20:24:59
+level=info msg="==> Running phase: Connect to hosts"
+level=info msg="==> Running phase: Detect host operating systems"
+level=info msg="==> Running phase: Prepare hosts"
+level=info msg="==> Running phase: Gather host facts"
+level=info msg="==> Running phase: Validate hosts"
+level=info msg="==> Running phase: Gather k0s facts"
+level=warning msg="172.16.0.176:22: k0s will be upgraded"
+level=warning msg="172.16.0.186:22: k0s will be upgraded"
+level=warning msg="172.16.0.36:22: k0s will be upgraded"
+level=warning msg="172.16.0.72:22: k0s will be upgraded"
+level=info msg="==> Running phase: Validate facts"
+level=info msg="==> Running phase: Stage k0s binaries on hosts"
+level=info msg="==> Running phase: Run Before Apply Hooks"
+level=info msg="==> Running phase: Upgrade controllers"
+level=info msg="172.16.0.176:22: starting upgrade"
+level=info msg="==> Running phase: Upgrade workers"
+level=info msg="172.16.0.186:22: starting upgrade"
+level=info msg="172.16.0.186:22: upgrade finished"
+level=info msg="172.16.0.36:22: starting upgrade"
+level=info msg="172.16.0.36:22: upgrade finished"
+level=info msg="172.16.0.72:22: starting upgrade"
+level=info msg="172.16.0.72:22: upgrade finished"
+level=info msg="==> Running phase: Run After Apply Hooks"
+level=info msg="==> Running phase: Disconnect from hosts"
+level=info msg="==> Finished in 5m14s"
+### danach 20:30:13
+NAME STATUS VERSION CONTAINER-RUNTIME
+k0s-w1 Ready v1.37.2+k0s containerd://2.3.6
+k0s-w2 Ready v1.37.2+k0s containerd://2.3.6
+k0s-w3 Ready v1.36.6+k0s containerd://2.3.6
+v1.37.2+k0s.1
+pg-0   0/1   ContainerCreating   0     32s   <none>   k0s-w1   <none>   <none>
+error: error from server (NotFound): pods "pg-client" not found in namespace "demo"
+fehler: 0 von  bis 
+### +60s 20:31:22
+NAME STATUS VERSION
+k0s-w1 Ready v1.37.2+k0s
+k0s-w2 Ready v1.37.2+k0s
+k0s-w3 Ready v1.37.2+k0s
+v1.37.2+k0s.1
+active
+pg-0   1/1   Running   0     102s   10.244.0.28   k0s-w1   <none>   <none>
+  Normal   Scheduled               102s  default-scheduler        Successfully assigned demo/pg-0 to k0s-w1
+  Warning  FailedAttachVolume      102s  attachdetach-controller  Waiting for detach for volume "pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250" Volume is already exclusively attached to one node, waiting on detach before it can be attached to another node
+  Normal   SuccessfulAttachVolume  70s   attachdetach-controller  AttachVolume.Attach succeeded for volume "pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250"
+  Normal   Pulled                  68s   kubelet                  spec.containers{postgres}: Container image "postgres:17.6" already present on machine and can be accessed by the pod
+  Normal   Created                 68s   kubelet                  spec.containers{postgres}: Container created
+  Normal   Started                 68s   kubelet                  spec.containers{postgres}: Container started

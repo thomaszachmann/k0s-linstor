@@ -1,0 +1,97 @@
+
+
+
+
+
+
+
+
+
+
+== k0s-ctrl
+version: 9.3.4 (api:2/proto:118-125)
+GIT-hash: e59b287b199f7224468af85b68a10e83c68213f5 build by root@k0s-ctrl, 2026-11-12 17:39:25
+drbd-dkms 9.3.4-1ppa1~noble1
+drbd-reactor 1.12.0-1ppa1~noble1
+drbd-utils 9.36.0~rc.1-1ppa1~noble1
+linstor-client 1.29.1-1ppa1~noble1
+linstor-common 1.33.3-1
+linstor-satellite 1.33.3-1
+python-linstor 1.29.1-1ppa1~noble1
+
+
+
+
+
+
+
+
+
+
+== k0s-w1
+version: 9.3.4 (api:2/proto:118-125)
+GIT-hash: e59b287b199f7224468af85b68a10e83c68213f5 build by root@k0s-w1, 2026-11-12 17:45:19
+drbd-dkms 9.3.4-1ppa1~noble1
+drbd-reactor 1.12.0-1ppa1~noble1
+drbd-utils 9.36.0~rc.1-1ppa1~noble1
+linstor-client 1.29.1-1ppa1~noble1
+linstor-common 1.33.3-1
+linstor-controller 1.33.3-1
+linstor-satellite 1.33.3-1
+python-linstor 1.29.1-1ppa1~noble1
+
+
+
+
+
+
+
+
+
+
+== k0s-w2
+version: 9.3.4 (api:2/proto:118-125)
+GIT-hash: e59b287b199f7224468af85b68a10e83c68213f5 build by root@k0s-w2, 2026-11-12 17:52:00
+drbd-dkms 9.3.4-1ppa1~noble1
+drbd-reactor 1.12.0-1ppa1~noble1
+drbd-utils 9.36.0~rc.1-1ppa1~noble1
+linstor-client 1.29.1-1ppa1~noble1
+linstor-common 1.33.3-1
+linstor-controller 1.33.3-1
+linstor-satellite 1.33.3-1
+python-linstor 1.29.1-1ppa1~noble1
+
+
+
+
+
+
+
+
+
+
+== k0s-w3
+version: 9.3.4 (api:2/proto:118-125)
+GIT-hash: e59b287b199f7224468af85b68a10e83c68213f5 build by root@k0s-w3, 2026-11-12 17:58:28
+drbd-dkms 9.3.4-1ppa1~noble1
+drbd-reactor 1.12.0-1ppa1~noble1
+drbd-utils 9.36.0~rc.1-1ppa1~noble1
+linstor-client 1.29.1-1ppa1~noble1
+linstor-common 1.33.3-1
+linstor-controller 1.33.3-1
+linstor-satellite 1.33.3-1
+python-linstor 1.29.1-1ppa1~noble1
+
+[exited with code 0]
+### controller nur auf w1
+Removed "/etc/systemd/system/multi-user.target.wants/linstor-controller.service".
+inactive
+Removed "/etc/systemd/system/multi-user.target.wants/linstor-controller.service".
+inactive
+### drbd beim boot laden + lvm-filter
+global_filter="r|^/dev/drbd|"
+global_filter="r|^/dev/drbd|"
+global_filter="r|^/dev/drbd|"
+global_filter="r|^/dev/drbd|"
+### witness ohne storage-netz
+ens19            DOWN           

@@ -1,0 +1,54 @@
+### resize mit writecache unter 1.35.3
+pod/fueller condition met
+persistentvolumeclaim/klein patched
+klein   Bound   pvc-447e9ad1-d48e-46cd-b58e-998a919d658d   1Gi   RWO   linstor-replicated   <unset>   79s
+Filesystem                Size      Used Available Use% Mounted on
+/dev/drbd1002           977.1M     24.0K    909.7M   0% /daten
+0 2105344 writecache s 252:4 252:5 4096 0
+2105344
+╭───────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ StoragePool │ Node   │ Driver │ PoolName │ FreeCapacity │ TotalCapacity │ CanSnapshots │ State │ SharedName       │
+╞═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════╡
+│ pool_data   │ k0s-w1 │ LVM    │ data     │    28.79 GiB │     30.00 GiB │ True         │ Ok    │ k0s-w1;pool_data │
+│ pool_data   │ k0s-w2 │ LVM    │ data     │    26.79 GiB │     30.00 GiB │ True         │ Ok    │ k0s-w2;pool_data │
+│ pool_data   │ k0s-w3 │ LVM    │ data     │    27.79 GiB │     30.00 GiB │ True         │ Ok    │ k0s-w3;pool_data │
+ExternalExpanding: waiting for an external controller to expand this PVC
+ExternalProvisioning: Waiting for a volume to be created either by the external provisioner 'linstor.csi.linbit.com' or manually by the system administrator. If volume creation is delayed, please verify that the provisioner is running and correctly registered.
+Provisioning: External provisioner is provisioning volume for claim "test135/klein"
+ProvisioningSucceeded: Successfully provisioned volume pvc-447e9ad1-d48e-46cd-b58e-998a919d658d
+Resizing: External resizer is resizing volume pvc-447e9ad1-d48e-46cd-b58e-998a919d658d
+VolumeResizeFailed: resize volume "pvc-447e9ad1-d48e-46cd-b58e-998a919d658d" by resizer "linstor.csi.linbit.com" failed: rpc error: code = Internal desc = ControllerExpandVolume - expand volume failed for pvc-447e9ad1-d48e-46cd-b58e-998a919d658d: Message: 'Cannot resize volume, because we have a non-UpToDate DRBD device.'; Details: 'Resource definition: pvc-447e9ad1-d48e-46cd-b58e-998a919d658d, Volume number: 0'
+WaitForFirstConsumer: waiting for first consumer to be created before binding
+## nach ca. 20s
+klein   Bound   pvc-447e9ad1-d48e-46cd-b58e-998a919d658d   1500Mi   RWO   linstor-replicated   <unset>   2m4s
+Filesystem                Size      Used Available Use% Mounted on
+/dev/drbd1002           977.1M     24.0K    909.7M   0% /daten
+0 2105344 writecache s 252:4 252:5 4096 0
+3080192
+1077665792
+### snapshot unter 1.35.3 20:22:33
+volumesnapshotclass.snapshot.storage.k8s.io/linstor-snapshots unchanged
+volumesnapshot.snapshot.storage.k8s.io/pg-vor-update created
+pg-vor-update   true   data-pg-0         2Gi   linstor-snapshots   snapcontent-10131a8f-7ae4-4856-b46c-d39f28c3aff7   37s   41s
+true 
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ResourceName                             │ SnapshotName                                  │ NodeNames      │ Volumes  │ CreatedOn           │ State      │
+╞═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╡
+│ pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250 │ snapshot-10131a8f-7ae4-4856-b46c-d39f28c3aff7 │ k0s-w2, k0s-w3 │ 0: 2 GiB │ 2026-11-12 20:22:40 │ Successful │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+  LV                                                                                           VG   Attr       LSize   Pool Origin                                         Data%  Meta%  Move Log Cpy%Sync Convert
+  linstor_db_00000                                                                             data -wi-ao---- 204.00m                                                                                            
+  pvc-447e9ad1-d48e-46cd-b58e-998a919d658d_00000                                               data -wi-ao----  <1.47g                                                                                            
+  pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250_00000                                               data owi-aos---   2.00g                                                                                            
+  pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250_00000_snapshot-10131a8f-7ae4-4856-b46c-d39f28c3aff7 data sri-a-s--k   2.00g      pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250_00000 0.00                                   
+### pvc aus snapshot
+persistentvolumeclaim/pg-kopie created
+pod/pg-kopie-lesen created
+pod/pg-kopie-lesen condition met
+pg-kopie   Bound   pvc-68931659-7584-48fc-8a91-db76c12be00c   2Gi   RWO   linstor-replicated   <unset>   40s
+PG_VERSION
+base
+global
+pg_commit_ts
+pg_dynshmem
+38.8M	/pgdata/pgdata

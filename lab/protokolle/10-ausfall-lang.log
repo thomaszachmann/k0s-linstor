@@ -1,0 +1,79 @@
+### ausgangslage
+pg-0        1/1   Running   1 (90s ago)   56m     10.244.0.13   k0s-w1   <none>   <none>
+pg-client   1/1   Running   0             3m14s   10.244.1.6    k0s-w3   <none>   <none>
+Promoter: Resource linstor_db currently active on this node
+### w1 hart aus 19:21:13
+Timeout, server 172.16.0.186 not responding.
+### nach 90s 19:22:47
+NAME     STATUS   ROLES    AGE    VERSION
+k0s-w1   Ready    <none>   109m   v1.36.6+k0s
+k0s-w2   Ready    <none>   109m   v1.36.6+k0s
+k0s-w3   Ready    <none>   109m   v1.36.6+k0s
+NAME        READY   STATUS    RESTARTS       AGE     IP            NODE     NOMINATED NODE   READINESS GATES
+pg-0        1/1     Running   1 (3m6s ago)   58m     10.244.0.13   k0s-w1   <none>           <none>
+pg-client   1/1     Running   0              4m50s   10.244.1.6    k0s-w3   <none>           <none>
+pvc-0d903f58-5691-4cda-bb3e-a155de0ced03 role:Secondary
+  disk:UpToDate open:no
+  k0s-ctrl role:Secondary
+    peer-disk:Diskless peer-client:yes
+  k0s-w1 role:Primary
+    peer-disk:UpToDate
+
+19:22:49 ok
+19:22:50 ok
+### w1 hart aus (2. versuch) 19:23:07
+### nach ca. 1 min 19:24:31
+k0s-w1   NotReady   <none>   111m   v1.36.6+k0s
+k0s-w2   Ready      <none>   111m   v1.36.6+k0s
+k0s-w3   Ready      <none>   111m   v1.36.6+k0s
+pg-0        1/1   Running   1 (4m51s ago)   59m     10.244.0.13   k0s-w1   <none>   <none>
+pg-client   1/1   Running   0               6m35s   10.244.1.6    k0s-w3   <none>   <none>
+19:24:32 FEHLER
+### nach ca. 6 min 19:29:32
+k0s-w1   NotReady   <none>   116m   v1.36.6+k0s
+k0s-w2   Ready      <none>   116m   v1.36.6+k0s
+k0s-w3   Ready      <none>   116m   v1.36.6+k0s
+pg-0        1/1   Terminating   1 (9m53s ago)   64m   10.244.0.13   k0s-w1   <none>   <none>
+pg-client   1/1   Running       0               11m   10.244.1.6    k0s-w3   <none>   <none>
+19:29:33 FEHLER
+pvc-0d903f58-5691-4cda-bb3e-a155de0ced03 role:Secondary
+  disk:UpToDate open:no
+  k0s-ctrl role:Secondary
+    peer-disk:Diskless peer-client:yes
+  k0s-w1 connection:Connecting
+
+pvc-0d903f58-5691-4cda-bb3e-a155de0ced03   k0s-w1   true
+### out-of-service taint 19:29:50
+node/k0s-w1 tainted
+pg-0 ready nach 0s
+pg-0        1/1   Terminating   1 (10m ago)   65m   10.244.0.13   k0s-w1   <none>   <none>
+pg-client   1/1   Running       0             11m   10.244.1.6    k0s-w3   <none>   <none>
+19:29:45 FEHLER
+19:29:49 FEHLER
+error: unable to upgrade connection: error dialing backend: dial tcp 172.16.0.186:10250: connect: no route to host
+pvc-0d903f58-5691-4cda-bb3e-a155de0ced03 role:Secondary
+  disk:UpToDate open:no
+  k0s-ctrl role:Secondary
+    peer-disk:Diskless peer-client:yes
+  k0s-w1 connection:Connecting
+
+### pg-0 laeuft woanders, 14s nach Pruefbeginn, 19:30:20
+pg-0        1/1   Running   0     11s   10.244.1.10   k0s-w3   <none>   <none>
+pg-client   1/1   Running   0     12m   10.244.1.6    k0s-w3   <none>   <none>
+  ----    ------                  ----  ----                     -------
+  Normal  Scheduled               12s   default-scheduler        Successfully assigned demo/pg-0 to k0s-w3
+  Normal  SuccessfulAttachVolume  9s    attachdetach-controller  AttachVolume.Attach succeeded for volume "pvc-0d903f58-5691-4cda-bb3e-a155de0ced03"
+  Normal  Pulled                  4s    kubelet                  spec.containers{postgres}: Container image "postgres:17.6" already present on machine and can be accessed by the pod
+  Normal  Created                 4s    kubelet                  spec.containers{postgres}: Container created
+  Normal  Started                 4s    kubelet                  spec.containers{postgres}: Container started
+letztes ok 19:30:20
+ geschrieben auf k0s-w2
+
+╭───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ResourceName                             │ Node     │ Layers                  │ Usage  │ Conns              │    State │ Vote │
+╞═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╡
+│ pvc-0d903f58-5691-4cda-bb3e-a155de0ced03 │ k0s-ctrl │ DRBD,STORAGE            │ Unused │ Connecting(k0s-w1) │ Diskless │ Yes  │
+│ pvc-0d903f58-5691-4cda-bb3e-a155de0ced03 │ k0s-w1   │ DRBD,WRITECACHE,STORAGE │        │                    │  Unknown │ Yes  │
+│ pvc-0d903f58-5691-4cda-bb3e-a155de0ced03 │ k0s-w2   │ DRBD,WRITECACHE,STORAGE │ Unused │ Connecting(k0s-w1) │ UpToDate │ Yes  │
+│ pvc-0d903f58-5691-4cda-bb3e-a155de0ced03 │ k0s-w3   │ DRBD,STORAGE            │ InUse  │ Connecting(k0s-w1) │ Diskless │ Yes  │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯

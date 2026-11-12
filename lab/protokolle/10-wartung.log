@@ -1,0 +1,59 @@
+### ausgangslage 18:53:37
+Promoter: Resource linstor_db currently active on node 'k0s-w3'
+pg-0   1/1   Running   0     28m   10.244.0.6   k0s-w1   <none>   <none>
+kube-system coredns-7c5b856895-d7tbq
+kube-system konnectivity-agent-v86qh
+kube-system kube-proxy-z29bl
+kube-system kube-router-gnntr
+piraeus-datastore linstor-csi-controller-85987c8cf6-z7m6c
+piraeus-datastore linstor-csi-node-x6m4r
+### 1 drain
+evicting pod kube-system/coredns-7c5b856895-d7tbq
+pod/linstor-csi-controller-85987c8cf6-z7m6c evicted
+pod/coredns-7c5b856895-d7tbq evicted
+node/k0s-w3 drained
+### 2 controller abgeben
+Node 'k0s-w1' took over
+Error: Unable to connect to linstor://10.10.0.100: [Errno 111] Connection refused
+0
+### 3 reboot 18:53:53
+linstor_db role:Primary
+  disk:UpToDate open:yes
+  k0s-ctrl role:Secondary
+    peer-disk:Diskless peer-client:yes
+  k0s-w2 role:Secondary
+    peer-disk:UpToDate
+  k0s-w3 connection:Connecting
+
+### w3 per ssh zurueck nach 22s ab sleep
+node Ready 18:54:53
+╭────────────────────────────────────────────────────────────╮
+│ Node     │ NodeType  │ Addresses                 │ State   │
+╞════════════════════════════════════════════════════════════╡
+│ k0s-ctrl │ SATELLITE │ 172.16.0.176:3366 (PLAIN) │ Online  │
+│ k0s-w1   │ SATELLITE │ 10.10.0.11:3366 (PLAIN)   │ Online  │
+│ k0s-w2   │ SATELLITE │ 10.10.0.12:3366 (PLAIN)   │ Online  │
+│ k0s-w3   │ SATELLITE │ 10.10.0.13:3366 (PLAIN)   │ OFFLINE │
+╰────────────────────────────────────────────────────────────╯
+╭───────────────────────────────────────────────────────────────────────╮
+│ ResourceName │ Node   │ Layers       │ Usage │ Conns │   State │ Vote │
+╞═══════════════════════════════════════════════════════════════════════╡
+│ linstor_db   │ k0s-w3 │ DRBD,STORAGE │       │       │ Unknown │ Yes  │
+╰───────────────────────────────────────────────────────────────────────╯
+  k0s-w3 role:Secondary
+    peer-disk:UpToDate
+version: 9.3.4 (api:2/proto:118-125)
+active
+active
+disabled
+node/k0s-w3 uncordoned
+NAME     STATUS   ROLES    AGE   VERSION
+k0s-w1   Ready    <none>   81m   v1.36.6+k0s
+k0s-w2   Ready    <none>   81m   v1.36.6+k0s
+k0s-w3   Ready    <none>   81m   v1.36.6+k0s
+w3 Online in LINSTOR nach weiteren 2s (18:55:19)
+│ k0s-w3   │ SATELLITE │ 10.10.0.13:3366 (PLAIN)   │ Online │
+╭─────────────────────────────────────────────────────────────╮
+│ ResourceName │ Node │ Layers │ Usage │ Conns │ State │ Vote │
+╞═════════════════════════════════════════════════════════════╡
+╰─────────────────────────────────────────────────────────────╯

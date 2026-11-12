@@ -1,0 +1,138 @@
+### controller /metrics
+jvm_buffer_pool_capacity_bytes
+jvm_buffer_pool_used_buffers
+jvm_buffer_pool_used_bytes
+jvm_classes_currently_loaded
+jvm_classes_loaded_total
+jvm_classes_unloaded_total
+jvm_gc_collection_seconds_count
+jvm_gc_collection_seconds_sum
+jvm_info
+jvm_memory_bytes_committed
+jvm_memory_bytes_init
+jvm_memory_bytes_max
+jvm_memory_bytes_used
+jvm_memory_objects_pending_finalization
+jvm_memory_pool_bytes_committed
+jvm_memory_pool_bytes_init
+jvm_memory_pool_bytes_max
+jvm_memory_pool_bytes_used
+jvm_memory_pool_collection_committed_bytes
+jvm_memory_pool_collection_init_bytes
+jvm_memory_pool_collection_max_bytes
+jvm_memory_pool_collection_used_bytes
+jvm_threads_current
+jvm_threads_daemon
+jvm_threads_deadlocked
+jvm_threads_deadlocked_monitor
+jvm_threads_peak
+jvm_threads_started_total
+jvm_threads_state
+linstor_apicall_duration_seconds_bucket
+linstor_apicall_duration_seconds_count
+linstor_apicall_duration_seconds_created
+linstor_apicall_duration_seconds_sum
+linstor_error_reports_count
+linstor_info
+linstor_node_flag
+linstor_node_reconnect_attempt_count
+linstor_node_state
+linstor_resource_definition_count
+linstor_resource_definition_resource_count
+### beispielwerte
+linstor_node_state{node="k0s-ctrl",address="172.16.0.176",nodetype="SATELLITE",encryption="PLAIN",port="3366"} 2.0
+linstor_node_state{node="k0s-w1",address="10.10.0.11",nodetype="SATELLITE",encryption="PLAIN",port="3366"} 2.0
+linstor_node_state{node="k0s-w2",address="10.10.0.12",nodetype="SATELLITE",encryption="PLAIN",port="3366"} 2.0
+linstor_node_state{node="k0s-w3",address="10.10.0.13",nodetype="SATELLITE",encryption="PLAIN",port="3366"} 2.0
+linstor_resource_definition_count 2.0
+linstor_volume_state{volume="0",node="k0s-ctrl",resource="linstor_db",device_path="/dev/drbd1000",storage_pool="DfltDisklessStorPool"} 4.0
+linstor_volume_state{volume="0",node="k0s-w1",resource="linstor_db",device_path="/dev/drbd1000",storage_pool="pool_data"} 1.0
+linstor_volume_state{volume="0",node="k0s-w2",resource="linstor_db",device_path="/dev/drbd1000",storage_pool="pool_data"} 1.0
+linstor_volume_state{volume="0",node="k0s-w3",resource="linstor_db",device_path="/dev/drbd1000",storage_pool="pool_data"} 1.0
+linstor_volume_state{volume="0",node="k0s-ctrl",resource="pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250",device_path="/dev/drbd1001",storage_pool="DfltDisklessStorPool"} 4.0
+linstor_volume_state{volume="0",node="k0s-w1",resource="pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250",device_path="/dev/drbd1001",storage_pool="DfltDisklessStorPool"} 4.0
+linstor_volume_state{volume="0",node="k0s-w2",resource="pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250",device_path="/dev/drbd1001",storage_pool="pool_data"} 1.0
+# HELP linstor_node_state 0="OFFLINE", 1="CONNECTED", 2="ONLINE", 3="VERSION_MISMATCH", 4="FULL_SYNC_FAILED", 5="AUTHENTICATION_ERROR", 6="UNKNOWN", 7="HOSTNAME_MISMATCH", 8="OTHER_CONTROLLER", 9="AUT
+# HELP linstor_node_reconnect_attempt_count Number of node reconnection attempts
+# HELP linstor_node_flag 1 if the node flag is set, 0 otherwise
+# HELP linstor_resource_state -1="unknown state", 0="secondary", 1="primary"
+# HELP linstor_resource_flag 1 if the resource flag is set, 0 otherwise
+# HELP linstor_volume_state 1="UpToDate", 2="Created", 3="Attached", 4="Diskless", 5="Inconsistent", 6="Failed", 7="To: Creating", 8="To: Attachable", 9="To: Attaching", 90="Diskless(Detached)", -1="D
+# HELP linstor_apicall_duration_seconds LINSTOR internal API call duration in seconds
+# HELP linstor_restapi_request_duration_seconds LINSTOR REST API Request duration in seconds
+# HELP linstor_apicall_duration_seconds_created LINSTOR internal API call duration in seconds
+# HELP linstor_restapi_request_duration_seconds_created LINSTOR REST API Request duration in seconds
+### drbd-reactor :9942 auf w2
+drbd_connection_apinflight_bytes
+drbd_connection_congested
+drbd_connection_rsinflight_bytes
+drbd_connection_state
+drbd_device_alsuspended
+drbd_device_alwrites_total
+drbd_device_bmwrites_total
+drbd_device_client
+drbd_device_lowerpending
+drbd_device_open
+drbd_device_quorum
+drbd_device_read_bytes_total
+drbd_device_size_bytes
+drbd_device_state
+drbd_device_unintentionaldiskless
+drbd_device_upperpending
+drbd_device_written_bytes_total
+drbd_peerdevice_outofsync_bytes
+drbd_peerdevice_received_bytes
+drbd_peerdevice_sent_bytes
+drbd_resource_forceiofailures
+drbd_resource_maypromote
+drbd_resource_promotionscore
+drbd_resource_resources
+drbd_resource_role
+drbd_resource_suspended
+drbd_version
+drbdreactor_up
+linstor_apicall_duration_seconds_bucket
+linstor_apicall_duration_seconds_count
+linstor_apicall_duration_seconds_created
+linstor_apicall_duration_seconds_sum
+linstor_error_reports_count
+linstor_info
+linstor_node_flag
+linstor_node_reconnect_attempt_count
+linstor_node_state
+linstor_resource_definition_count
+linstor_resource_definition_resource_count
+linstor_resource_flag
+linstor_resource_state
+linstor_restapi_request_duration_seconds_bucket
+linstor_restapi_request_duration_seconds_count
+linstor_restapi_request_duration_seconds_created
+linstor_restapi_request_duration_seconds_sum
+linstor_scrape_duration_seconds
+linstor_scrape_requests_count
+linstor_storage_pool_capacity_free_bytes
+linstor_storage_pool_capacity_total_bytes
+linstor_storage_pool_error_count
+linstor_volume_allocated_size_bytes
+linstor_volume_definition_size_bytes
+linstor_volume_state
+### drbd beispiel w2
+drbd_peerdevice_outofsync_bytes{name="pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250",conn_name="k0s-w3",peer_node_id="0",volume="0"} 0
+drbd_peerdevice_outofsync_bytes{name="pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250",conn_name="k0s-ctrl",peer_node_id="2",volume="0"} 0
+drbd_peerdevice_outofsync_bytes{name="pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250",conn_name="k0s-w1",peer_node_id="3",volume="0"} 0
+drbd_peerdevice_outofsync_bytes{name="linstor_db",conn_name="k0s-w1",peer_node_id="0",volume="0"} 0
+drbd_peerdevice_outofsync_bytes{name="linstor_db",conn_name="k0s-w3",peer_node_id="2",volume="0"} 0
+drbd_peerdevice_outofsync_bytes{name="linstor_db",conn_name="k0s-ctrl",peer_node_id="3",volume="0"} 0
+drbd_connection_state{name="pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250",conn_name="k0s-w3",peer_node_id="0",drbd_connection_state="StandAlone"} 0
+drbd_connection_state{name="pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250",conn_name="k0s-w3",peer_node_id="0",drbd_connection_state="Disconnecting"} 0
+drbd_connection_state{name="pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250",conn_name="k0s-w3",peer_node_id="0",drbd_connection_state="Unconnected"} 0
+drbd_connection_state{name="pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250",conn_name="k0s-w3",peer_node_id="0",drbd_connection_state="Timeout"} 0
+drbd_connection_state{name="pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250",conn_name="k0s-w3",peer_node_id="0",drbd_connection_state="BrokenPipe"} 0
+drbd_connection_state{name="pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250",conn_name="k0s-w3",peer_node_id="0",drbd_connection_state="NetworkFailure"} 0
+# HELP drbd_connection_state DRBD connection state
+# HELP drbd_device_state DRBD device state
+All commands and output from this session will be recorded in container logs, including credentials and sensitive information passed through the command prompt.
+If you don't see a command prompt, try pressing enter.
+  SUCCESS
+
+pod "pt" deleted from promtool namespace

@@ -1,0 +1,147 @@
+### volume fuellen
+namespace/kapazitaet created
+persistentvolumeclaim/klein created
+pod/fueller created
+pod/fueller condition met
+Filesystem                Size      Used Available Use% Mounted on
+/dev/drbd1002           977.1M     24.0K    909.7M   0% /daten
+1007722496 bytes (961.0MB) copied, 3.630850 seconds, 264.7MB/s
+command terminated with exit code 1
+Filesystem                Size      Used Available Use% Mounted on
+/dev/drbd1002           977.1M    961.1M         0 100% /daten
+exit=1
+sh: write error: No space left on device
+### vergroessern pvc-370b3c44-87e5-478e-a380-adb44aa460e9
+persistentvolumeclaim/klein patched
+NAME    STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS         VOLUMEATTRIBUTESCLASS   AGE
+klein   Bound    pvc-370b3c44-87e5-478e-a380-adb44aa460e9   1Gi        RWO            linstor-replicated   <unset>                 113s
+  Warning  VolumeResizeFailed  40s                 external-resizer linstor.csi.linbit.com  resize volume "pvc-370b3c44-87e5-478e-a380-adb44aa460e9" by resizer "linstor.csi.linbit.com" failed: rpc error: code = Internal desc = ControllerExpandVolume - expand volume failed for pvc-370b3c44-87e5-478e-a380-adb44aa460e9: Message: 'Cannot grow the volume definition by 2097152KiB, as the following storage pool do not have enough free space:
+Node: k0s-w1, StorPool: pool_nvme
+Node: k0s-w2, StorPool: pool_nvme'; Details: 'Resource definition: pvc-370b3c44-87e5-478e-a380-adb44aa460e9, Volume number: 0'; Reports: '[6AF60B40-00000-000008]'
+  Warning  VolumeResizeFailed  39s (x2 over 40s)  external-resizer linstor.csi.linbit.com  (combined from similar events): resize volume "pvc-370b3c44-87e5-478e-a380-adb44aa460e9" by resizer "linstor.csi.linbit.com" failed: rpc error: code = Internal desc = ControllerExpandVolume - expand volume failed for pvc-370b3c44-87e5-478e-a380-adb44aa460e9: Message: 'Cannot grow the volume definition by 2097152KiB, as the following storage pool do not have enough free space:
+Node: k0s-w1, StorPool: pool_nvme
+Node: k0s-w2, StorPool: pool_nvme'; Details: 'Resource definition: pvc-370b3c44-87e5-478e-a380-adb44aa460e9, Volume number: 0'; Reports: '[6AF60B40-00000-000010]'
+Filesystem                Size      Used Available Use% Mounted on
+/dev/drbd1002           977.1M    961.1M         0 100% /daten
+╭───────────────────────────────────────────────────────────────────────────────────────────╮
+│ ResourceName                             │ VolumeNr │ VolumeMinor │ Size  │ Gross │ State │
+╞═══════════════════════════════════════════════════════════════════════════════════════════╡
+│ pvc-370b3c44-87e5-478e-a380-adb44aa460e9 │ 0        │ 1002        │ 1 GiB │       │ ok    │
+╰───────────────────────────────────────────────────────────────────────────────────────────╯
+╭───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ Resource                                 │ Node     │ StoragePool          │ VolNr │ MinorNr │ DeviceName    │ Allocated │ InUse  │    State │ Repl           │
+╞═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╡
+│ pvc-370b3c44-87e5-478e-a380-adb44aa460e9 │ k0s-ctrl │ DfltDisklessStorPool │     0 │    1002 │ /dev/drbd1002 │           │ Unused │ Diskless │ Established(2) │
+│ pvc-370b3c44-87e5-478e-a380-adb44aa460e9 │ k0s-w1   │ pool_data            │     0 │    1002 │ /dev/drbd1002 │  1.05 GiB │ InUse  │ UpToDate │ Established(2) │
+│ pvc-370b3c44-87e5-478e-a380-adb44aa460e9 │ k0s-w2   │ pool_data            │     0 │    1002 │ /dev/drbd1002 │  1.05 GiB │ Unused │ UpToDate │ Established(2) │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+│ 6AF60B40-00000-000008 │ 2026-11-12 18:56:47 │ C|k0s-w1 │ ApiRcException: Cannot grow the volume definition by 2097152KiB, as the f... │
+│ 6AF60B40-00000-000009 │ 2026-11-12 18:56:47 │ C|k0s-w1 │ ApiRcException: Cannot grow the volume definition by 2097152KiB, as the f... │
+│ 6AF60B40-00000-000010 │ 2026-11-12 18:56:47 │ C|k0s-w1 │ ApiRcException: Cannot grow the volume definition by 2097152KiB, as the f... │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+### freier platz pool_nvme
+╭───────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ StoragePool │ Node   │ Driver │ PoolName │ FreeCapacity │ TotalCapacity │ CanSnapshots │ State │ SharedName       │
+╞═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════╡
+│ pool_nvme   │ k0s-w1 │ LVM    │ cache    │     1.84 GiB │      2.00 GiB │ False        │ Ok    │ k0s-w1;pool_nvme │
+│ pool_nvme   │ k0s-w2 │ LVM    │ cache    │     1.84 GiB │      2.00 GiB │ False        │ Ok    │ k0s-w2;pool_nvme │
+│ pool_nvme   │ k0s-w3 │ LVM    │ cache    │     2.00 GiB │      2.00 GiB │ False        │ Ok    │ k0s-w3;pool_nvme │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+### pvc auf 3Gi zurueck nicht moeglich (nur wachsen) -> zweites pvc mit 1Gi -> 1.5Gi
+### auf 2Gi korrigieren
+persistentvolumeclaim/klein patched
+NAME    STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS         VOLUMEATTRIBUTESCLASS   AGE
+klein   Bound    pvc-370b3c44-87e5-478e-a380-adb44aa460e9   1Gi        RWO            linstor-replicated   <unset>                 3m
+Node: k0s-w2, StorPool: pool_nvme'; Details: 'Resource definition: pvc-370b3c44-87e5-478e-a380-adb44aa460e9, Volume number: 0'; Reports: '[6AF60B40-00000-000010]'
+  Normal  Resizing                  46s (x12 over 112s)  external-resizer linstor.csi.linbit.com  External resizer is resizing volume pvc-370b3c44-87e5-478e-a380-adb44aa460e9
+  Normal  FileSystemResizeRequired  43s                  external-resizer linstor.csi.linbit.com  Require file system resize of volume on node
+Filesystem                Size      Used Available Use% Mounted on
+/dev/drbd1002           977.1M    961.1M         0 100% /daten
+╭───────────────────────────────────────────────────────────────────────────────────────────╮
+│ ResourceName                             │ VolumeNr │ VolumeMinor │ Size  │ Gross │ State │
+╞═══════════════════════════════════════════════════════════════════════════════════════════╡
+│ pvc-370b3c44-87e5-478e-a380-adb44aa460e9 │ 0        │ 1002        │ 2 GiB │       │ ok    │
+╰───────────────────────────────────────────────────────────────────────────────────────────╯
+  pvc-370b3c44-87e5-478e-a380-adb44aa460e9.cache_00000 104.00m
+  pvc-370b3c44-87e5-478e-a380-adb44aa460e9_00000         2.00g
+### nach 30s
+NAME    STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS         VOLUMEATTRIBUTESCLASS   AGE
+klein   Bound    pvc-370b3c44-87e5-478e-a380-adb44aa460e9   2Gi        RWO            linstor-replicated   <unset>                 3m31s
+Filesystem                Size      Used Available Use% Mounted on
+/dev/drbd1002           977.1M    961.1M         0 100% /daten
+sh: write error: No space left on device
+command terminated with exit code 1
+### workaround writecache neu laden
+## k0s-w1
+alt: 0 2105344 writecache s 252:4 252:5 4096 0
+neue-laenge: 4202496
+neu: 0 4202496 writecache s 252:4 252:5 4096 0
+## k0s-w2
+alt: 0 2105344 writecache s 252:4 252:5 4096 0
+neue-laenge: 4202496
+neu: 0 4202496 writecache s 252:4 252:5 4096 0
+### drbd resize auf primary
+pvc-370b3c44-87e5-478e-a380-adb44aa460e9 role:Primary
+  disk:UpToDate open:yes
+  k0s-ctrl role:Secondary
+    peer-disk:Diskless peer-client:yes
+  k0s-w2 role:Secondary
+    replication:SyncSource peer-disk:Inconsistent done:19.73
+
+NAME           SIZE
+drbd1002 2151178240
+resize2fs 1.47.0 (5-Feb-2023)
+Filesystem at /dev/drbd1002 is mounted on /var/lib/k0s/kubelet/pods/26e679ff-84ff-423e-a588-4b63f4f13323/volumes/kubernetes.io~csi/pvc-370b3c44-87e5-478e-a380-adb44aa460e9/mount; on-line resizing required
+old_desc_blocks = 1, new_desc_blocks = 1
+The filesystem on /dev/drbd1002 is now 525190 (4k) blocks long.
+
+Filesystem                Size      Used Available Use% Mounted on
+/dev/drbd1002             1.9G    961.1M    921.6M  51% /daten
+schreiben-ok
+### pool voll: 40Gi anfordern
+persistentvolumeclaim/zu-gross created
+pod/zu-gross created
+NAME       STATUS    VOLUME   CAPACITY   ACCESS MODES   STORAGECLASS         VOLUMEATTRIBUTESCLASS   AGE
+zu-gross   Pending                                      linstor-replicated   <unset>                 41s
+NAME       READY   STATUS    RESTARTS   AGE
+zu-gross   0/1     Pending   0          41s
+
+Auto-placing resource: pvc-f36d0d17-43f9-438e-8d1d-860f92c8023e'
+  Normal  ExternalProvisioning  3s (x4 over 41s)  persistentvolume-controller  Waiting for a volume to be created either by the external provisioner 'linstor.csi.linbit.com' or manually by the system administrator. If volume creation is delayed, please verify that the provisioner is running and correctly registered.
+╭───────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ StoragePool │ Node   │ Driver │ PoolName │ FreeCapacity │ TotalCapacity │ CanSnapshots │ State │ SharedName       │
+╞═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════╡
+│ pool_data   │ k0s-w1 │ LVM    │ data     │    25.79 GiB │     30.00 GiB │ False        │ Ok    │ k0s-w1;pool_data │
+│ pool_data   │ k0s-w2 │ LVM    │ data     │    25.79 GiB │     30.00 GiB │ False        │ Ok    │ k0s-w2;pool_data │
+│ pool_data   │ k0s-w3 │ LVM    │ data     │    29.80 GiB │     30.00 GiB │ False        │ Ok    │ k0s-w3;pool_data │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+      Aux/zone
+      DRBD
+rpc error: code = Internal desc = CreateVolume failed for pvc-f36d0d17-43f9-438e-8d1d-860f92c8023e: rpc error: code = ResourceExhausted desc = failed to enough replicas on requisite nodes: Message: 'Not enough available nodes'; Details: 'Not enough nodes fulfilling the following auto-place criteria:
+ * has a deployed storage pool named [pool_data]
+ * the storage pools have to have at least '41943040' free space
+ * the current access context has enough privileges to use the node and the storage pool
+ * the node is online
+
+Auto-place configuration details:
+   Replica count: 2
+   Additional replica count: 2
+   Node names:
+      k0s-ctrl
+      k0s-w1
+      k0s-w2
+      k0s-w3
+   Storage pool name:
+      pool_data
+   Do not place with resource:
+      pvc-f36d0d17-43f9-438e-8d1d-860f92c8023e
+   Replicas on nodes with different property:
+      Aux/zone
+   Layer stack:
+      DRBD
+      WRITECACHE
+      STORAGE
+   Diskless on remaining: false
+
+Auto-placing resource: pvc-f36d0d17-43f9-438e-8d1d-860f92c8023e'

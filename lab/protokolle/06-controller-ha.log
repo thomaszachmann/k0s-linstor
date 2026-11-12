@@ -1,0 +1,163 @@
+SUCCESS:
+Description:
+    New resource group 'linstor-db-grp' created.
+Details:
+SUCCESS:
+    Successfully set property key(s): DrbdOptions/Resource/auto-promote,DrbdOptions/Resource/on-no-data-accessible,DrbdOptions/Resource/on-no-quorum,DrbdOptions/Resource/on-suspended-primary-outdated,DrbdOptions/Resource/quorum
+SUCCESS:
+Description:
+    Resource group 'linstor-db-grp' modified.
+Details:
+SUCCESS:
+    New volume group with number '0' of resource group 'linstor-db-grp' created.
+SUCCESS:
+    Volume definition with number '0' successfully  created in resource definition 'linstor_db'.
+SUCCESS:
+Description:
+    New resource definition 'linstor_db' created.
+Details:
+SUCCESS:
+    Successfully set property key(s): StorPoolName
+SUCCESS:
+    Successfully set property key(s): StorPoolName
+SUCCESS:
+    Successfully set property key(s): StorPoolName
+SUCCESS:
+    Successfully set property key(s): StorPoolName
+SUCCESS:
+Description:
+    Resource 'linstor_db' successfully autoplaced on 3 nodes
+Details:
+    Used nodes (storage pool name): 'k0s-w1 (pool_data)', 'k0s-w2 (pool_data)', 'k0s-w3 (pool_data)'
+INFO:
+    Updated linstor_db DRBD auto verify algorithm to 'crct10dif'
+INFO:
+    Resource-definition property 'DrbdOptions/Resource/quorum' updated from undefined to 'majority' by User
+SUCCESS:
+    (k0s-ctrl) Resource 'linstor_db' [DRBD] adjusted.
+SUCCESS:
+    Created resource 'linstor_db' on 'k0s-ctrl'
+SUCCESS:
+    (k0s-w3) Volume number 0 of resource 'linstor_db' [LVM] created
+SUCCESS:
+    (k0s-w3) Resource 'linstor_db' [DRBD] adjusted.
+SUCCESS:
+    Created resource 'linstor_db' on 'k0s-w3'
+SUCCESS:
+    (k0s-w2) Volume number 0 of resource 'linstor_db' [LVM] created
+SUCCESS:
+    (k0s-w2) Resource 'linstor_db' [DRBD] adjusted.
+SUCCESS:
+    Created resource 'linstor_db' on 'k0s-w2'
+SUCCESS:
+    (k0s-w1) Volume number 0 of resource 'linstor_db' [LVM] created
+SUCCESS:
+    (k0s-w1) Resource 'linstor_db' [DRBD] adjusted.
+SUCCESS:
+    Created resource 'linstor_db' on 'k0s-w1'
+SUCCESS:
+Description:
+    Resource 'linstor_db' on 'k0s-ctrl' ready
+Details:
+    Resource group: linstor-db-grp
+SUCCESS:
+Description:
+    Resource 'linstor_db' on 'k0s-w2' ready
+Details:
+    Resource group: linstor-db-grp
+SUCCESS:
+Description:
+    Resource 'linstor_db' on 'k0s-w1' ready
+Details:
+    Resource group: linstor-db-grp
+SUCCESS:
+Description:
+    Resource 'linstor_db' on 'k0s-w3' ready
+Details:
+    Resource group: linstor-db-grp
+SUCCESS:
+    (k0s-w2) Resource 'linstor_db' [DRBD] adjusted.
+SUCCESS:
+    (k0s-w3) Resource 'linstor_db' [DRBD] adjusted.
+SUCCESS:
+    (k0s-ctrl) Resource 'linstor_db' [DRBD] adjusted.
+SUCCESS:
+    (k0s-w1) Resource 'linstor_db' [DRBD] adjusted.
+╭───────────────────────────────────────────────────────────────────────────╮
+│ ResourceName │ Node     │ Layers       │ Usage  │ Conns │    State │ Vote │
+╞═══════════════════════════════════════════════════════════════════════════╡
+│ linstor_db   │ k0s-ctrl │ DRBD,STORAGE │ Unused │ Ok    │ Diskless │ Yes  │
+│ linstor_db   │ k0s-w1   │ DRBD,STORAGE │ Unused │ Ok    │ UpToDate │ Yes  │
+│ linstor_db   │ k0s-w2   │ DRBD,STORAGE │ Unused │ Ok    │ UpToDate │ Yes  │
+│ linstor_db   │ k0s-w3   │ DRBD,STORAGE │ Unused │ Ok    │ UpToDate │ Yes  │
+╰───────────────────────────────────────────────────────────────────────────╯
+linstor_db role:Secondary
+  disk:UpToDate open:no
+  k0s-ctrl role:Secondary
+    peer-disk:Diskless peer-client:yes
+  k0s-w2 role:Secondary
+    peer-disk:UpToDate
+  k0s-w3 role:Secondary
+    peer-disk:UpToDate
+### db umziehen auf w1
+Removed "/etc/systemd/system/multi-user.target.wants/linstor-controller.service".
+ls: cannot open directory '/var/lib/linstor.orig': Permission denied
+### reactor status
+## k0s-w1
+/etc/drbd-reactor.d/linstor_db.toml:
+Promoter: Resource linstor_db currently active on this node
+● drbd-services@linstor_db.target
+● ├─ drbd-promote@linstor_db.service
+● ├─ var-lib-linstor.mount
+● ├─ ocf.rs@linstor_vip_linstor_db.service
+● └─ linstor-controller.service
+
+ens19            UP             10.10.0.11/24 10.10.0.100/24 fe80::be24:11ff:feba:6015/64 
+## k0s-w2
+/etc/drbd-reactor.d/linstor_db.toml:
+Promoter: Resource linstor_db currently active on node 'k0s-w1'
+○ drbd-services@linstor_db.target
+○ ├─ drbd-promote@linstor_db.service
+○ ├─ var-lib-linstor.mount
+○ ├─ ocf.rs@linstor_vip_linstor_db.service
+○ └─ linstor-controller.service
+
+ens19            UP             10.10.0.12/24 fe80::be24:11ff:fe16:67f1/64 
+## k0s-w3
+/etc/drbd-reactor.d/linstor_db.toml:
+Promoter: Resource linstor_db currently active on node 'k0s-w1'
+○ drbd-services@linstor_db.target
+○ ├─ drbd-promote@linstor_db.service
+○ ├─ var-lib-linstor.mount
+○ ├─ ocf.rs@linstor_vip_linstor_db.service
+○ └─ linstor-controller.service
+
+ens19            UP             10.10.0.13/24 fe80::be24:11ff:feb8:fa25/64 
+### node list ueber VIP
+╭───────────────────────────────────────────────────────────╮
+│ Node     │ NodeType  │ Addresses                 │ State  │
+╞═══════════════════════════════════════════════════════════╡
+│ k0s-ctrl │ SATELLITE │ 172.16.0.176:3366 (PLAIN) │ Online │
+│ k0s-w1   │ SATELLITE │ 10.10.0.11:3366 (PLAIN)   │ Online │
+│ k0s-w2   │ SATELLITE │ 10.10.0.12:3366 (PLAIN)   │ Online │
+│ k0s-w3   │ SATELLITE │ 10.10.0.13:3366 (PLAIN)   │ Online │
+╰───────────────────────────────────────────────────────────╯
+### evict auf w1
+18:07:20
+Created symlink /run/systemd/system/drbd-services@linstor_db.target → /dev/null.
+20..
+Node 'k0s-w3' took over
+Re-enabling linstor_db
+Removed /run/systemd/system/drbd-services@linstor_db.target.
+controller wieder erreichbar nach 15s
+k0s-w1: Promoter: Resource linstor_db currently active on node 'k0s-w3' 
+k0s-w2: Promoter: Resource linstor_db currently active on node 'k0s-w3' 
+k0s-w3: Promoter: Resource linstor_db currently active on this node 10.10.0.100
+╭───────────────────────────────────────────────────────────────────────────╮
+│ ResourceName │ Node     │ Layers       │ Usage  │ Conns │    State │ Vote │
+╞═══════════════════════════════════════════════════════════════════════════╡
+│ linstor_db   │ k0s-ctrl │ DRBD,STORAGE │ Unused │ Ok    │ Diskless │ Yes  │
+│ linstor_db   │ k0s-w1   │ DRBD,STORAGE │ Unused │ Ok    │ UpToDate │ Yes  │
+│ linstor_db   │ k0s-w2   │ DRBD,STORAGE │ Unused │ Ok    │ UpToDate │ Yes  │
+│ linstor_db   │ k0s-w3   │ DRBD,STORAGE │ InUse  │ Ok    │ UpToDate │ Yes  │
+╰───────────────────────────────────────────────────────────────────────────╯

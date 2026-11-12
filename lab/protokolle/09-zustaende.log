@@ -1,0 +1,114 @@
+PV=pvc-0d903f58-5691-4cda-bb3e-a155de0ced03
+╭───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ Resource                                 │ Node     │ StoragePool          │ VolNr │ MinorNr │ DeviceName    │ Allocated │ InUse  │    State │ Repl           │
+╞═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╡
+│ pvc-0d903f58-5691-4cda-bb3e-a155de0ced03 │ k0s-ctrl │ DfltDisklessStorPool │     0 │    1001 │ /dev/drbd1001 │           │ Unused │ Diskless │ Established(2) │
+│ pvc-0d903f58-5691-4cda-bb3e-a155de0ced03 │ k0s-w1   │ pool_data            │     0 │    1001 │ /dev/drbd1001 │  2.11 GiB │ InUse  │ UpToDate │ Established(2) │
+│ pvc-0d903f58-5691-4cda-bb3e-a155de0ced03 │ k0s-w2   │ pool_data            │     0 │    1001 │ /dev/drbd1001 │  2.11 GiB │ Unused │ UpToDate │ Established(2) │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ResourceName                             │ ResourceGroup │ Layers                  │ State │
+╞════════════════════════════════════════════════════════════════════════════════════════════╡
+│ pvc-0d903f58-5691-4cda-bb3e-a155de0ced03 │ rg-k8s        │ DRBD,WRITECACHE,STORAGE │ ok    │
+╰────────────────────────────────────────────────────────────────────────────────────────────╯
+╭────────────────────────────────────────────────────────────╮
+│ Key                                  │ Value               │
+╞════════════════════════════════════════════════════════════╡
+│ Aux/csi-provisioning-completed-by    │ linstor-csi/v1.12.0 │
+│ Aux/csi.storage.k8s.io/pvc/name      │ data-pg-0           │
+│ Aux/csi.storage.k8s.io/pvc/namespace │ demo                │
+│ DrbdOptions/Resource/quorum          │ majority            │
+│ DrbdOptions/auto-verify-alg          │ crct10dif           │
+╰────────────────────────────────────────────────────────────╯
+pvc-0d903f58-5691-4cda-bb3e-a155de0ced03 role:Primary
+  disk:UpToDate open:yes
+  k0s-ctrl role:Secondary
+    peer-disk:Diskless peer-client:yes
+  k0s-w2 role:Secondary
+    peer-disk:UpToDate
+
+pvc-0d903f58-5691-4cda-bb3e-a155de0ced03 node-id:1 role:Primary suspended:no
+    force-io-failures:no
+    write-ordering:flush
+  volume:0 minor:1001 disk:UpToDate
+      backing_dev:/dev/mapper/linstor_writecache_pvc-0d903f58-5691-4cda-bb3e-a155de0ced03_00000
+      quorum:yes open:yes
+      size:2100760 read:6596 written:2174708 al-writes:11 bm-writes:250 upper-pending:0
+      lower-pending:0 al-suspended:no blocked:no
+  k0s-ctrl node-id:2 connection:Connected role:Secondary tls:no congested:no
+      ap-in-flight:0 rs-in-flight:0
+    volume:0 replication:Established peer-disk:Diskless peer-client:yes
+        resync-suspended:no
+        received:0 sent:0 out-of-sync:0 pending:0 unacked:0
+  k0s-w2 node-id:0 connection:Connected role:Secondary tls:no congested:no
+      ap-in-flight:0 rs-in-flight:0
+    volume:0 replication:Established peer-disk:UpToDate resync-suspended:no
+        received:58844 sent:2936 out-of-sync:0 pending:0 unacked:0
+
+resource "pvc-0d903f58-5691-4cda-bb3e-a155de0ced03" {
+    options {
+        on-no-data-accessible	suspend-io;
+        quorum          	majority;
+        on-suspended-primary-outdated	force-secondary;
+    }
+    _this_host {
+        node-id			1;
+        volume 0 {
+            device			minor 1001;
+            disk			"/dev/mapper/linstor_writecache_pvc-0d903f58-5691-4cda-bb3e-a155de0ced03_00000";
+            meta-disk			internal;
+            disk {
+                discard-zeroes-if-aligned	no;
+                rs-discard-granularity	4096; # bytes
+                block-size      	4096;
+            }
+        }
+    }
+    connection {
+        _peer_node_id 2;
+        path {
+            _this_host ipv4 172.16.0.186:7001;
+            _remote_host ipv4 172.16.0.176:7001;
+        }
+        _cstate Connected;
+        net {
+            cram-hmac-alg   	"sha1";
+            shared-secret   	"<geschwärzt>";
+            rr-conflict     	retry-connect;
+            verify-alg      	"crct10dif";
+            _name           	"k0s-ctrl";
+        }
+        volume 0 {
+            disk {
+                bitmap          	no;
+            }
+        }
+    }
+    connection {
+        _peer_node_id 0;
+        path {
+            _this_host ipv4 10.10.0.11:7001;
+            _remote_host ipv4 10.10.0.12:7001;
+        }
+        _cstate Connected;
+        net {
+            cram-hmac-alg   	"sha1";
+            shared-secret   	"<geschwärzt>";
+            rr-conflict     	retry-connect;
+            verify-alg      	"crct10dif";
+            _name           	"k0s-w2";
+        }
+    }
+}
+
+╭──────────────────────────────────╮
+│ Id │ Datetime │ Node │ Exception │
+╞══════════════════════════════════╡
+╰──────────────────────────────────╯
+pvc-0d903f58-5691-4cda-bb3e-a155de0ced03 role:Secondary
+  disk:Diskless client:yes open:no
+  k0s-w1 role:Primary
+    peer-disk:UpToDate
+  k0s-w2 role:Secondary
+    peer-disk:UpToDate
+

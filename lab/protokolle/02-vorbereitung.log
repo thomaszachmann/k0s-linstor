@@ -1,0 +1,107 @@
+### k0s-ctrl
+PRETTY_NAME="Ubuntu 24.04.5 LTS"
+6.8.0-124-generic
+lo               UNKNOWN        00:00:00:00:00:00 <LOOPBACK,UP,LOWER_UP> 
+eth0             UP             bc:24:11:79:c8:ab <BROADCAST,MULTICAST,UP,LOWER_UP> 
+ens19            DOWN           bc:24:11:11:36:9f <BROADCAST,MULTICAST> 
+NAME    MAJ:MIN RM  SIZE RO TYPE MOUNTPOINTS
+sda       8:0    0   30G  0 disk 
+├─sda1    8:1    0   29G  0 part /
+├─sda14   8:14   0    4M  0 part 
+├─sda15   8:15   0  106M  0 part /boot/efi
+└─sda16 259:0    0  913M  0 part /boot
+sr0      11:0    1    4M  0 rom  
+System clock synchronized: yes
+              NTP service: active
+active
+### k0s-w1
+PRETTY_NAME="Ubuntu 24.04.5 LTS"
+6.8.0-124-generic
+lo               UNKNOWN        00:00:00:00:00:00 <LOOPBACK,UP,LOWER_UP> 
+eth0             UP             bc:24:11:bc:2e:3b <BROADCAST,MULTICAST,UP,LOWER_UP> 
+ens19            DOWN           bc:24:11:ba:60:15 <BROADCAST,MULTICAST> 
+NAME    MAJ:MIN RM  SIZE RO TYPE MOUNTPOINTS
+sda       8:0    0   30G  0 disk 
+├─sda1    8:1    0   29G  0 part /
+├─sda14   8:14   0    4M  0 part 
+├─sda15   8:15   0  106M  0 part /boot/efi
+└─sda16 259:0    0  913M  0 part /boot
+sdb       8:16   0   32G  0 disk 
+sr0      11:0    1    4M  0 rom  
+System clock synchronized: yes
+              NTP service: active
+active
+### k0s-w2
+PRETTY_NAME="Ubuntu 24.04.5 LTS"
+6.8.0-124-generic
+lo               UNKNOWN        00:00:00:00:00:00 <LOOPBACK,UP,LOWER_UP> 
+eth0             UP             bc:24:11:71:fd:2f <BROADCAST,MULTICAST,UP,LOWER_UP> 
+ens19            DOWN           bc:24:11:16:67:f1 <BROADCAST,MULTICAST> 
+NAME    MAJ:MIN RM  SIZE RO TYPE MOUNTPOINTS
+sda       8:0    0   30G  0 disk 
+├─sda1    8:1    0   29G  0 part /
+├─sda14   8:14   0    4M  0 part 
+├─sda15   8:15   0  106M  0 part /boot/efi
+└─sda16 259:0    0  913M  0 part /boot
+sdb       8:16   0   32G  0 disk 
+sr0      11:0    1    4M  0 rom  
+System clock synchronized: yes
+              NTP service: active
+active
+### k0s-w3
+PRETTY_NAME="Ubuntu 24.04.5 LTS"
+6.8.0-124-generic
+lo               UNKNOWN        00:00:00:00:00:00 <LOOPBACK,UP,LOWER_UP> 
+eth0             UP             bc:24:11:de:75:d2 <BROADCAST,MULTICAST,UP,LOWER_UP> 
+ens19            DOWN           bc:24:11:b8:fa:25 <BROADCAST,MULTICAST> 
+NAME    MAJ:MIN RM  SIZE RO TYPE MOUNTPOINTS
+sda       8:0    0   30G  0 disk 
+├─sda1    8:1    0   29G  0 part /
+├─sda14   8:14   0    4M  0 part 
+├─sda15   8:15   0  106M  0 part /boot/efi
+└─sda16 259:0    0  913M  0 part /boot
+sdb       8:16   0   32G  0 disk 
+sr0      11:0    1    4M  0 rom  
+System clock synchronized: yes
+              NTP service: active
+active
+### netplan
+ens19            UP             10.10.0.1/24 fe80::be24:11ff:fe11:369f/64 
+ens19            UP             10.10.0.11/24 fe80::be24:11ff:feba:6015/64 
+ens19            UP             10.10.0.12/24 fe80::be24:11ff:fe16:67f1/64 
+ens19            UP             10.10.0.13/24 fe80::be24:11ff:feb8:fa25/64 
+### ping storage
+2 packets transmitted, 2 received, 0% packet loss, time 1022ms
+rtt min/avg/max/mdev = 0.415/0.587/0.759/0.172 ms
+2 packets transmitted, 2 received, 0% packet loss, time 1001ms
+rtt min/avg/max/mdev = 0.522/0.736/0.950/0.214 ms
+2 packets transmitted, 2 received, 0% packet loss, time 1001ms
+rtt min/avg/max/mdev = 0.521/0.720/0.919/0.199 ms
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.623/0.623/0.623/0.000 ms
+10.10.0.12 dev ens19 src 10.10.0.11 uid 1000 
+### platten
+## k0s-w1
+  Physical volume "/dev/sdb1" successfully created.
+  Physical volume "/dev/sdb2" successfully created.
+  Volume group "data" successfully created
+  Volume group "cache" successfully created
+  VG    #PV #LV #SN Attr   VSize   VFree  
+  cache   1   0   0 wz--n-  <2.00g  <2.00g
+  data    1   0   0 wz--n- <30.00g <30.00g
+## k0s-w2
+  Physical volume "/dev/sdb1" successfully created.
+  Physical volume "/dev/sdb2" successfully created.
+  Volume group "data" successfully created
+  Volume group "cache" successfully created
+  VG    #PV #LV #SN Attr   VSize   VFree  
+  cache   1   0   0 wz--n-  <2.00g  <2.00g
+  data    1   0   0 wz--n- <30.00g <30.00g
+## k0s-w3
+  Physical volume "/dev/sdb1" successfully created.
+  Physical volume "/dev/sdb2" successfully created.
+  Volume group "data" successfully created
+  Volume group "cache" successfully created
+  VG    #PV #LV #SN Attr   VSize   VFree  
+  cache   1   0   0 wz--n-  <2.00g  <2.00g
+  data    1   0   0 wz--n- <30.00g <30.00g

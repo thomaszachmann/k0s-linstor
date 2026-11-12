@@ -1,0 +1,50 @@
+groups:
+  - name: linstor-drbd
+    rules:
+      # LINSTOR-Controller (Metriken vom Controller über die VIP)
+      - alert: LinstorNodeNichtOnline
+        expr: linstor_node_state != 2
+        for: 5m
+        labels: {severity: warning}
+        annotations:
+          summary: "LINSTOR-Node {{ $labels.node }} ist nicht ONLINE (Zustand {{ $value }})"
+          description: "0=OFFLINE, 3=VERSION_MISMATCH. Satellite und Storage-Netz des Nodes prüfen."
+      - alert: LinstorPoolFastVoll
+        expr: |
+          linstor_storage_pool_capacity_free_bytes
+            / (linstor_storage_pool_capacity_total_bytes > 0) < 0.15
+        for: 15m
+        labels: {severity: warning}
+        annotations:
+          summary: "Pool {{ $labels.storage_pool }} auf {{ $labels.node }} hat weniger als 15 % frei"
+      - alert: LinstorFehlerberichte
+        expr: increase(linstor_error_reports_count[30m]) > 0
+        labels: {severity: info}
+        annotations:
+          summary: "Neue LINSTOR-Fehlerberichte: linstor error-reports list"
+      # DRBD (Metriken von drbd-reactor auf jedem Node)
+      - alert: DrbdVerbindungGetrennt
+        expr: drbd_connection_state{drbd_connection_state=~"StandAlone|Connecting|Unconnected"} == 1
+        for: 5m
+        labels: {severity: critical}
+        annotations:
+          summary: "DRBD {{ $labels.name }}: Verbindung zu {{ $labels.conn_name }} ist {{ $labels.drbd_connection_state }}"
+          description: "StandAlone bedeutet fast immer Split-Brain (Kapitel 11)."
+      - alert: DrbdOhneQuorum
+        expr: drbd_device_quorum == 0
+        for: 1m
+        labels: {severity: critical}
+        annotations:
+          summary: "DRBD {{ $labels.name }} auf {{ $labels.instance }} hat kein Quorum"
+      - alert: DrbdSuspendiert
+        expr: drbd_resource_suspended == 1
+        for: 1m
+        labels: {severity: critical}
+        annotations:
+          summary: "DRBD {{ $labels.name }} hält alle Schreibvorgänge an"
+      - alert: DrbdOutOfSync
+        expr: drbd_peerdevice_outofsync_bytes > 0
+        for: 30m
+        labels: {severity: warning}
+        annotations:
+          summary: "DRBD {{ $labels.name }}: {{ $value | humanize1024 }}B nicht synchron mit {{ $labels.conn_name }}"

@@ -1,0 +1,5 @@
+# Eine Stelle für die Version. Für ein Update hier ändern (Kapitel 15).
+linstor_version: "1.35.3-1ppa1~noble1"
+linstor_vip: "10.10.0.100"
+linstor_vip_nic: ens19
+linstor_ppa: "ppa:linbit/linbit-drbd9-stack"

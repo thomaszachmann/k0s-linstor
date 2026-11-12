@@ -1,0 +1,54 @@
+### w1 zurueck 19:58:44
+NAME     STATUS   ROLES    AGE    VERSION
+k0s-w1   Ready    <none>   145m   v1.36.6+k0s
+k0s-w2   Ready    <none>   145m   v1.36.6+k0s
+k0s-w3   Ready    <none>   145m   v1.36.6+k0s
+Taints:             node.kubernetes.io/out-of-service=nodeshutdown:NoExecute
+Unschedulable:      false
+Lease:
+pvc-0d903f58-5691-4cda-bb3e-a155de0ced03 role:Secondary
+  disk:UpToDate open:no
+  k0s-ctrl role:Secondary
+    peer-disk:Diskless peer-client:yes
+  k0s-w1 role:Secondary
+    peer-disk:UpToDate
+  k0s-w3 role:Primary
+    peer-disk:Diskless peer-client:yes
+
+  k0s-w1 role:Secondary
+    peer-disk:UpToDate
+│ k0s-w1   │ SATELLITE │ 10.10.0.11:3366 (PLAIN)   │ Online │
+╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ResourceName                             │ Node     │ Layers                  │ Usage  │ Conns │    State │ Vote │
+╞══════════════════════════════════════════════════════════════════════════════════════════════════════════════════╡
+│ pvc-0d903f58-5691-4cda-bb3e-a155de0ced03 │ k0s-ctrl │ DRBD,STORAGE            │ Unused │ Ok    │ Diskless │ Yes  │
+│ pvc-0d903f58-5691-4cda-bb3e-a155de0ced03 │ k0s-w1   │ DRBD,WRITECACHE,STORAGE │ Unused │ Ok    │ UpToDate │ Yes  │
+│ pvc-0d903f58-5691-4cda-bb3e-a155de0ced03 │ k0s-w2   │ DRBD,WRITECACHE,STORAGE │ Unused │ Ok    │ UpToDate │ Yes  │
+│ pvc-0d903f58-5691-4cda-bb3e-a155de0ced03 │ k0s-w3   │ DRBD,STORAGE            │ InUse  │ Ok    │ Diskless │ Yes  │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+No resources found in piraeus-datastore namespace.
+### taint entfernen 19:58:59
+node/k0s-w1 untainted
+kube-system konnectivity-agent-kgjwc 1/1 Running
+kube-system kube-proxy-h2v8k 1/1 Running
+kube-system kube-router-bk5j6 1/1 Running
+piraeus-datastore linstor-csi-node-q2h8v 3/3 Running
+linstor.csi.linbit.com
+pg-0        1/1   Running   0     29m   10.244.1.10   k0s-w3   <none>   <none>
+pg-client   1/1   Running   0     41m   10.244.1.6    k0s-w3   <none>   <none>
+19:59:46 ok
+### zurueck auf node mit kopie 19:59:55
+node/k0s-w3 cordoned
+pod "pg-0" deleted from demo namespace
+pod/pg-0 condition met
+node/k0s-w3 uncordoned
+pg-0   1/1   Running   0     11s   10.244.0.15   k0s-w1   <none>   <none>
+╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ResourceName                             │ Node     │ Layers                  │ Usage  │ Conns │    State │ Vote │
+╞══════════════════════════════════════════════════════════════════════════════════════════════════════════════════╡
+│ pvc-0d903f58-5691-4cda-bb3e-a155de0ced03 │ k0s-ctrl │ DRBD,STORAGE            │ Unused │ Ok    │ Diskless │ Yes  │
+│ pvc-0d903f58-5691-4cda-bb3e-a155de0ced03 │ k0s-w1   │ DRBD,WRITECACHE,STORAGE │ InUse  │ Ok    │ UpToDate │ Yes  │
+│ pvc-0d903f58-5691-4cda-bb3e-a155de0ced03 │ k0s-w2   │ DRBD,WRITECACHE,STORAGE │ Unused │ Ok    │ UpToDate │ Yes  │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+fehler gesamt 144
+6

@@ -1,0 +1,6 @@
+[global]
+{% if storage_ip %}
+controllers={{ linstor_vip }}
+{% else %}
+controllers={{ groups['linstor_controllers'] | map('extract', hostvars, 'mgmt_ip') | join(',') }}
+{% endif %}

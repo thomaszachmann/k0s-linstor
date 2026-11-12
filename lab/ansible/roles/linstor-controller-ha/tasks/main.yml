@@ -1,0 +1,32 @@
+- name: Controller-Paket und VIP-Agent
+  ansible.builtin.apt:
+    name:
+      - "linstor-controller={{ linstor_version }}"
+      - resource-agents-base
+    state: present
+    allow_change_held_packages: true
+
+- name: Version festhalten
+  ansible.builtin.dpkg_selections:
+    name: linstor-controller
+    selection: hold
+
+# Nur drbd-reactor startet den Controller. Kein state: ein laufender Controller bleibt laufen.
+- name: Controller nicht von systemd starten lassen
+  ansible.builtin.systemd_service:
+    name: linstor-controller
+    enabled: false
+
+- name: Mount-Unit für die Controller-Datenbank
+  ansible.builtin.copy:
+    src: var-lib-linstor.mount
+    dest: /etc/systemd/system/var-lib-linstor.mount
+    mode: "0644"
+  notify: systemd neu laden
+
+- name: Promoter für linstor_db
+  ansible.builtin.template:
+    src: linstor_db.toml.j2
+    dest: /etc/drbd-reactor.d/linstor_db.toml
+    mode: "0644"
+  notify: drbd-reactor neu laden

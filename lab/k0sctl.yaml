@@ -1,0 +1,34 @@
+apiVersion: k0sctl.k0sproject.io/v1beta1
+kind: Cluster
+metadata:
+  name: k0s-lab
+spec:
+  hosts:
+    - role: controller
+      ssh: {address: 172.16.0.176, user: ubuntu, keyPath: ~/.ssh/homelab}
+    - role: worker
+      ssh: {address: 172.16.0.186, user: ubuntu, keyPath: ~/.ssh/homelab}
+      installFlags: [--labels=topology.kubernetes.io/zone=a]
+    - role: worker
+      ssh: {address: 172.16.0.36, user: ubuntu, keyPath: ~/.ssh/homelab}
+      installFlags: [--labels=topology.kubernetes.io/zone=b]
+    - role: worker
+      ssh: {address: 172.16.0.72, user: ubuntu, keyPath: ~/.ssh/homelab}
+      installFlags: [--labels=topology.kubernetes.io/zone=a]
+  k0s:
+    version: v1.37.2+k0s.1
+    config:
+      apiVersion: k0s.k0sproject.io/v1beta1
+      kind: ClusterConfig
+      metadata:
+        name: k0s-lab
+      spec:
+        api:
+          address: 172.16.0.176
+          sans: [172.16.0.176]
+        network:
+          provider: kuberouter
+          podCIDR: 10.244.0.0/16
+          serviceCIDR: 10.96.0.0/12
+        telemetry:
+          enabled: false

@@ -1,0 +1,55 @@
+### vom operator gesetzte controller-properties
+│ Key                                                │ Value                                                                                                                                                                                                                                  │
+│ Aux/piraeus.io/last-applied                        │ ["Aux/piraeus.io/managed-by","DrbdOptions/AutoEvictAllowEviction","DrbdOptions/Net/rr-conflict","DrbdOptions/Resource/on-no-data-accessible","DrbdOptions/Resource/on-no-quorum","DrbdOptions/Resource/on-suspended-primary-outdated"] │
+│ Aux/piraeus.io/managed-by                          │ piraeus-operator                                                                                                                                                                                                                       │
+│ DrbdOptions/AutoEvictAllowEviction                 │ false                                                                                                                                                                                                                                  │
+│ DrbdOptions/Net/rr-conflict                        │ retry-connect                                                                                                                                                                                                                          │
+│ DrbdOptions/Resource/on-no-data-accessible         │ suspend-io                                                                                                                                                                                                                             │
+│ DrbdOptions/Resource/on-no-quorum                  │ suspend-io                                                                                                                                                                                                                             │
+│ DrbdOptions/Resource/on-suspended-primary-outdated │ force-secondary                                                                                                                                                                                                                        │
+│ DrbdOptions/auto-add-quorum-tiebreaker             │ True                                                                                                                                                                                                                                   │
+│ DrbdOptions/auto-diskful-allow-cleanup             │ True                                                                                                                                                                                                                                   │
+│ DrbdOptions/auto-resync-after-disable              │ true                                                                                                                                                                                                                                   │
+│ DrbdOptions/auto-verify-algo-allowed-list          │ crct10dif;crc32c;sha384;sha512;sha256;sha1;md5;windrbd                                                                                                                                                                                 │
+│ NetCom/DebugSslConnector/KeyPasswd                 │ linstor                                                                                                                                                                                                                                │
+│ NetCom/DebugSslConnector/KeyStore                  │ ssl/keystore.jks                                                                                                                                                                                                                       │
+│ NetCom/DebugSslConnector/KeyStorePasswd            │ linstor                                                                                                                                                                                                                                │
+│ NetCom/SslConnector/KeyPasswd                      │ linstor                                                                                                                                                                                                                                │
+│ NetCom/SslConnector/KeyStore                       │ ssl/keystore.jks                                                                                                                                                                                                                       │
+│ NetCom/SslConnector/KeyStorePasswd                 │ linstor                                                                                                                                                                                                                                │
+declare that node as evicted. This triggers an automated reassignment of the affected
+DRBD resources to other nodes to ensure a minimum replica count is kept.
+
+This feature uses the following properties to adapt the behavior.
+
+* `DrbdOptions/AutoEvictMinReplicaCount` sets the number of replicas that should always be
+  present. You can set this property on the controller to change a global default, or on a
+  specific resource definition or resource group to change it only for that resource definition
+  or resource group. If this property is left empty, the place count set for the Autoplacer of
+  the corresponding resource group will be used.
+
+* `DrbdOptions/AutoEvictAfterTime` describes how long a node can be offline in minutes before
+  the eviction is triggered. You can set this property on the controller to change a global
+  default, or on a single node to give it a different behavior. The default value for this
+  property is 60 minutes.
+
+* `DrbdOptions/AutoEvictMaxDisconnectedNodes` sets the percentage of nodes that can be not
+  reachable (for whatever reason) at the same time. If more than the given percent of nodes are
+  offline at the same time, the auto-evict will not be triggered for any node.
+  This is because, in this
+  case, LINSTOR assumes connection problems from the controller. This property can only be set
+  for the controller, and only accepts a value between 0 and 100. The default value is 34. If
+  you want to turn the auto-evict-feature off, simply set this property to 0. If you want to
+  always trigger the auto-evict, regardless of how many satellites are unreachable, set it to
+  100.
+
+* `DrbdOptions/AutoEvictAllowEviction` is an additional property that can stop a node from being
+  evicted. This can be useful for various cases, for example if you need to shut down a node for
+  maintenance. You can set this property on the controller to change a global default, or on a
+  single node to give it a different behavior. It accepts true and false as values and per
+  default is set to true on the controller. You can use this property to turn the auto-evict
+### test: operator setzt zurueck? 20:01:21
+│ Aux/piraeus.io/last-applied                        │ ["Aux/piraeus.io/managed-by","DrbdOptions/AutoEvictAllowEviction","DrbdOptions/Net/rr-conflict","DrbdOptions/Resource/on-no-data-accessible","DrbdOptions/Resource/on-no-quorum","DrbdOptions/Resource/on-suspended-primary-outdated"] │
+│ DrbdOptions/AutoEvictAllowEviction                 │ true                                                                                                                                                                                                                                   │
+│ Aux/piraeus.io/last-applied                        │ ["Aux/piraeus.io/managed-by","DrbdOptions/AutoEvictAllowEviction","DrbdOptions/Net/rr-conflict","DrbdOptions/Resource/on-no-data-accessible","DrbdOptions/Resource/on-no-quorum","DrbdOptions/Resource/on-suspended-primary-outdated"] │
+│ DrbdOptions/AutoEvictAllowEviction                 │ false                                                                                                                                                                                                                                  │

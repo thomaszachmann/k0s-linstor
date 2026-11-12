@@ -1,0 +1,60 @@
+### E: sbtest ohne quorum
+Description:
+╭────────────────────────────────────────────────────────────────────────────────────╮
+│ ResourceName │ Node   │ Layers                  │ Usage  │ Conns │    State │ Vote │
+╞════════════════════════════════════════════════════════════════════════════════════╡
+│ sbtest       │ k0s-w2 │ DRBD,WRITECACHE,STORAGE │ Unused │ Ok    │ UpToDate │ Yes  │
+│ sbtest       │ k0s-w3 │ DRBD,WRITECACHE,STORAGE │ Unused │ Ok    │ UpToDate │ Yes  │
+╰────────────────────────────────────────────────────────────────────────────────────╯
+dev=/dev/drbd1003
+basis
+### netz w3 weg 19:15:55
+## schreiben auf w2
+seite w2
+sbtest role:Secondary
+  disk:UpToDate open:no
+  k0s-w3 connection:Connecting
+
+## schreiben auf w3
+seite w3
+sbtest role:Secondary
+  disk:UpToDate open:no
+  k0s-w2 connection:Connecting
+
+## nach wiederverbindung 19:17:10
+sbtest role:Secondary
+  disk:UpToDate open:no
+  k0s-w3 connection:StandAlone
+
+Nov 12 19:16:57 k0s-w2 kernel: drbd sbtest/0 drbd1003 k0s-w3: Split-Brain detected but unresolved, dropping connection!
+Nov 12 19:16:57 k0s-w2 kernel: drbd sbtest/0 drbd1003 k0s-w3: helper command: /sbin/drbdadm split-brain
+Nov 12 19:16:57 k0s-w2 kernel: drbd sbtest/0 drbd1003 k0s-w3: helper command: /sbin/drbdadm split-brain exit code 0
+Nov 12 19:16:57 k0s-w2 kernel: drbd sbtest k0s-w3: conn( Disconnecting -> StandAlone ) [disconnected]
+sbtest role:Secondary
+  disk:UpToDate open:no
+  k0s-w2 connection:Connecting
+
+╭─────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ResourceName │ Node   │ Layers                  │ Usage  │ Conns              │    State │ Vote │
+╞═════════════════════════════════════════════════════════════════════════════════════════════════╡
+│ sbtest       │ k0s-w2 │ DRBD,WRITECACHE,STORAGE │ Unused │ StandAlone(k0s-w3) │ UpToDate │ Yes  │
+│ sbtest       │ k0s-w3 │ DRBD,WRITECACHE,STORAGE │ Unused │ Connecting(k0s-w2) │ UpToDate │ Yes  │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────╯
+### aufloesen: w3 verwirft, w2 gewinnt
+## vorher: inhalt beider seiten
+basis
+seite w2
+basis
+seite w3
+## w3: disconnect + connect --discard-my-data
+## w2: connect
+sbtest role:Secondary
+  disk:UpToDate open:no
+  k0s-w3 role:Secondary
+    peer-disk:UpToDate
+
+Nov 12 19:17:29 k0s-w3 kernel: drbd sbtest/0 drbd1003 k0s-w2: repl( SyncTarget -> Established ) [resync-finished]
+Nov 12 19:17:29 k0s-w3 kernel: drbd sbtest/0 drbd1003 k0s-w2: helper command: /sbin/drbdadm after-resync-target
+Nov 12 19:17:29 k0s-w3 kernel: drbd sbtest/0 drbd1003 k0s-w2: helper command: /sbin/drbdadm after-resync-target exit code 0
+basis
+seite w2

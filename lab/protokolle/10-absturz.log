@@ -1,0 +1,49 @@
+### absturz w1 19:18:49
+Timeout, server 172.16.0.186 not responding.
+controller wieder erreichbar nach 38s
+Promoter: Resource linstor_db currently active on this node
+Promoter: Resource linstor_db currently active on node 'k0s-w2'
+### zustand 19:20:41
+NAME     STATUS   ROLES    AGE    VERSION
+k0s-w1   Ready    <none>   107m   v1.36.6+k0s
+k0s-w2   Ready    <none>   107m   v1.36.6+k0s
+k0s-w3   Ready    <none>   107m   v1.36.6+k0s
+NAME        READY   STATUS    RESTARTS   AGE     IP           NODE     NOMINATED NODE   READINESS GATES
+pg-0        0/1     Unknown   0          56m     <none>       k0s-w1   <none>           <none>
+pg-client   1/1     Running   0          2m45s   10.244.1.6   k0s-w3   <none>           <none>
+pvc-0d903f58-5691-4cda-bb3e-a155de0ced03 role:Secondary
+  disk:UpToDate open:no
+  k0s-ctrl role:Secondary
+    peer-disk:Diskless peer-client:yes
+  k0s-w1 role:Secondary
+    peer-disk:UpToDate
+
+linstor_db role:Primary
+  disk:UpToDate open:yes
+  k0s-ctrl role:Secondary
+    peer-disk:Diskless peer-client:yes
+  k0s-w1 role:Secondary
+    peer-disk:UpToDate
+  k0s-w3 role:Secondary
+    peer-disk:UpToDate
+
+### pg-0 ready 19:20:53
+NAME   READY   STATUS    RESTARTS      AGE   IP            NODE     NOMINATED NODE   READINESS GATES
+pg-0   1/1     Running   1 (72s ago)   56m   10.244.0.13   k0s-w1   <none>           <none>
+  Normal   Created                 55m                kubelet                  spec.containers{postgres}: Container created
+  Normal   Started                 55m                kubelet                  spec.containers{postgres}: Container started
+  Warning  NodeNotReady            78s                node-controller          Node is not ready
+  Warning  FailedMount             36s (x7 over 68s)  kubelet                  MountVolume.MountDevice failed for volume "pvc-0d903f58-5691-4cda-bb3e-a155de0ced03" : kubernetes.io/csi: attacher.MountD
+  Normal   SandboxChanged          2s                 kubelet                  Pod sandbox changed, it will be killed and re-created.
+  Normal   Pulled                  2s                 kubelet                  spec.containers{postgres}: Container image "postgres:17.6" already present on machine and can be accessed by the pod
+  Normal   Created                 1s                 kubelet                  spec.containers{postgres}: Container created
+  Normal   Started                 1s                 kubelet                  spec.containers{postgres}: Container started
+### client log
+erster fehler 19:18:54 letzter fehler 19:20:50 anzahl 30
+19:20:46 FEHLER
+19:20:50 FEHLER
+MountVolume.MountDevice failed for volume "pvc-0d903f58-5691-4cda-bb3e-a155de0ced03" : kubernetes.io/csi: attacher.MountDevice failed to create newCsiDriverClient: driver name linstor.csi.linbit.com not found in the list of registered CSI drivers
+19:20:54 FEHLER
+19:20:56 ok
+19:20:57 ok
+19:20:58 ok
