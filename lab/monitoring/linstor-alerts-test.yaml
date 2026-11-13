@@ -7,6 +7,14 @@ tests:
         values: '0 0 1x10'
       - series: 'drbd_device_quorum{name="pvc-a",instance="k0s-w2"}'
         values: '1 1 0x5'
+      - series: 'drbd_resource_role{name="pvc-a",instance="k0s-w2",drbd_resource_role="Primary"}'
+        values: '1x8'
+      # Im Lab beobachtet: Der getrennte Secondary verliert das Quorum,
+      # die Anwendung auf dem Primary läuft weiter. Kein Alarm.
+      - series: 'drbd_device_quorum{name="pvc-b",instance="k0s-w2"}'
+        values: '1 1 0x5'
+      - series: 'drbd_resource_role{name="pvc-b",instance="k0s-w2",drbd_resource_role="Primary"}'
+        values: '0x8'
       - series: 'linstor_storage_pool_capacity_free_bytes{node="k0s-w1",storage_pool="pool_data"}'
         values: '10x30'
       - series: 'linstor_storage_pool_capacity_total_bytes{node="k0s-w1",storage_pool="pool_data"}'

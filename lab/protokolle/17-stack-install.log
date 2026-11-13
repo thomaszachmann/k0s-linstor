@@ -1,0 +1,31 @@
++(eval):2> kubectl create namespace monitoring
+namespace/monitoring created
++(eval):3> kubectl apply -f lab/monitoring/mailpit.yaml
+deployment.apps/mailpit created
+service/mailpit created
++(eval):4> helm install kps prometheus-community/kube-prometheus-stack --version 93.2.2 -n monitoring -f lab/monitoring/kube-prometheus-stack-values.yaml --wait --timeout 10m
+NAME: kps
+LAST DEPLOYED: Fri Nov 13 16:11:16 2026
+NAMESPACE: monitoring
+STATUS: deployed
+REVISION: 1
+DESCRIPTION: Install complete
+NOTES:
+kube-prometheus-stack has been installed. Check its status by running:
+  kubectl --namespace monitoring get pods -l "release=kps"
+
+Get Grafana 'admin' user password by running:
+
+  kubectl --namespace monitoring get secrets kps-grafana -o jsonpath="{.data.admin-password}" | base64 -d ; echo
+
+Access Grafana local instance:
+
+  export POD_NAME=$(kubectl --namespace monitoring get pod -l "app.kubernetes.io/name=grafana,app.kubernetes.io/instance=kps" -oname)
+  kubectl --namespace monitoring port-forward $POD_NAME 3000
+
+Get your grafana admin user password by running:
+
+  kubectl get secret --namespace monitoring -l app.kubernetes.io/component=admin-secret -o jsonpath="{.items[0].data.admin-password}" | base64 --decode ; echo
+
+
+Visit https://github.com/prometheus-operator/kube-prometheus for instructions on how to create & configure Alertmanager and Prometheus instances using the Operator.

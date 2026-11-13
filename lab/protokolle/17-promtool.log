@@ -1,0 +1,11 @@
+namespace/promtool created
+configmap/regeln created
+All commands and output from this session will be recorded in container logs, including credentials and sensitive information passed through the command prompt.
+If you don't see a command prompt, try pressing enter.
+Checking linstor-alerts.yaml
+  SUCCESS: 7 rules found
+
+  SUCCESS
+
+pod "pt" deleted from promtool namespace
+namespace "promtool" deleted

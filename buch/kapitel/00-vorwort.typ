@@ -30,7 +30,6 @@ Ausdrücklich *nicht* getestet und im Text so markiert sind:
 
 - ein Export der LINSTOR-Datenbank mit `linstor-database export-db` (scheiterte im Lab, Kapitel 15)
 - ein Lauf der Ansible-Rollen gegen einen leeren Node und ein Versionswechsel über die Rollen (Kapitel 16)
-- Prometheus, Alertmanager und Grafana selbst. Getestet sind Metriken und Alarmregeln (Kapitel 17).
 - mehrere k0s-Controller und alles in Kapitel 18
 
 == Versionen

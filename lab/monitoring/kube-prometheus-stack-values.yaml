@@ -1,0 +1,116 @@
+# kube-prometheus-stack für das k0s-Lab: Prometheus, Alertmanager, Grafana,
+# node-exporter und kube-state-metrics, klein dimensioniert für 3 x 4 GiB.
+
+# k0s betreibt Controller-Komponenten außerhalb des Clusters auf k0s-ctrl.
+# Prometheus erreicht sie nicht, also gar nicht erst danach suchen.
+kubeControllerManager: {enabled: false}
+kubeScheduler: {enabled: false}
+kubeEtcd: {enabled: false}
+kubeProxy: {enabled: false}
+defaultRules:
+  rules:
+    etcd: false
+    kubeControllerManager: false
+    kubeSchedulerAlerting: false
+    kubeSchedulerRecording: false
+    kubeProxy: false
+
+prometheus:
+  prometheusSpec:
+    retention: 7d
+    resources:
+      requests: {cpu: 100m, memory: 400Mi}
+      limits: {memory: 1Gi}
+    # Auch Regeln und Monitore finden, die nicht vom Chart selbst stammen.
+    ruleSelectorNilUsesHelmValues: false
+    serviceMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelectorNilUsesHelmValues: false
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: linstor-replicated
+          accessModes: [ReadWriteOnce]
+          resources: {requests: {storage: 5Gi}}
+    # LINSTOR und DRBD laufen auf den Hosts, nicht als Pods.
+    # Deshalb statische Ziele statt ServiceMonitor.
+    additionalScrapeConfigs:
+      - job_name: linstor-controller
+        static_configs:
+          - targets: ["10.10.0.100:3370"]
+            labels: {instance: linstor-controller}
+        # Das Community-Dashboard 15917 erwartet den LINSTOR-Node als
+        # exported_node (Label-Schema des Piraeus-Operators).
+        metric_relabel_configs:
+          - source_labels: [node]
+            target_label: exported_node
+      - job_name: drbd-reactor
+        static_configs:
+          - targets: ["10.10.0.11:9942"]
+            labels: {instance: k0s-w1, node: k0s-w1}
+          - targets: ["10.10.0.12:9942"]
+            labels: {instance: k0s-w2, node: k0s-w2}
+          - targets: ["10.10.0.13:9942"]
+            labels: {instance: k0s-w3, node: k0s-w3}
+          # Die Witness hat kein Storage-Netz.
+          - targets: ["172.16.0.176:9942"]
+            labels: {instance: k0s-ctrl, node: k0s-ctrl}
+
+alertmanager:
+  alertmanagerSpec:
+    resources:
+      requests: {cpu: 10m, memory: 50Mi}
+      limits: {memory: 128Mi}
+  config:
+    global:
+      smtp_smarthost: mailpit.monitoring.svc:1025
+      smtp_from: alertmanager@k0s-lab.local
+      smtp_require_tls: false
+    route:
+      receiver: storage-team
+      group_by: [alertname, name]
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 4h
+      routes:
+        # Watchdog feuert immer (Totmannschalter) und InfoInhibitor
+        # unterdrückt Info-Alarme. Beides gehört nicht ins Postfach.
+        - receiver: "null"
+          matchers: ['alertname=~"Watchdog|InfoInhibitor"']
+    receivers:
+      - name: "null"
+      - name: storage-team
+        email_configs:
+          - to: storage-team@k0s-lab.local
+            send_resolved: true
+
+grafana:
+  adminPassword: lab-admin   # nur im Lab, sonst ein Secret
+  persistence: {enabled: false}
+  resources:
+    requests: {cpu: 50m, memory: 128Mi}
+    limits: {memory: 384Mi}
+  additionalDataSources:
+    - name: Loki
+      type: loki
+      uid: loki
+      url: http://loki.monitoring.svc:3100
+  sidecar:
+    dashboards:
+      enabled: true
+      label: grafana_dashboard
+      searchNamespace: monitoring
+
+prometheus-node-exporter:
+  resources:
+    requests: {cpu: 10m, memory: 32Mi}
+    limits: {memory: 64Mi}
+
+kube-state-metrics:
+  resources:
+    requests: {cpu: 10m, memory: 64Mi}
+    limits: {memory: 128Mi}
+
+prometheusOperator:
+  resources:
+    requests: {cpu: 20m, memory: 64Mi}
+    limits: {memory: 192Mi}

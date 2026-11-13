@@ -1,0 +1,60 @@
+### 16:22:57 Ausgangslage
+pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250 role:Secondary
+  disk:UpToDate open:no
+  k0s-ctrl role:Secondary
+    peer-disk:Diskless peer-client:yes
+  k0s-w3 role:Primary
+    peer-disk:UpToDate
+
+### 16:22:59 Verbindung trennen auf k0s-w2
+pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250 role:Secondary suspended:quorum
+  disk:Outdated quorum:no open:no blocked:upper
+  k0s-ctrl role:Secondary
+    peer-disk:Diskless peer-client:yes
+  k0s-w3 connection:StandAlone
+
+pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250 role:Primary
+  disk:UpToDate open:yes
+  k0s-ctrl role:Secondary
+    peer-disk:Diskless peer-client:yes
+  k0s-w2 connection:Connecting
+
+CREATE TABLE
+INSERT 0 200000
+pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250 role:Primary
+  disk:UpToDate open:yes
+  k0s-ctrl role:Secondary
+    peer-disk:Diskless peer-client:yes
+  k0s-w2 connection:Connecting
+
+firing DrbdVerbindungGetrennt k0s-w3 15:23:18
+firing DrbdVerbindungGetrennt k0s-w2 15:23:48
+firing DrbdOhneQuorum k0s-w2 15:23:48
+firing DrbdSuspendiert k0s-w2 15:23:48
+pending DrbdOutOfSync k0s-w3 15:23:48
+firing Watchdog  15:12:58
+15:28:48 [FIRING:2] DrbdVerbindungGetrennt pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250 (drbd-reactor monitoring/kps-kube-prometheus-stack-prometheus critical)
+15:25:18 [FIRING:1] DrbdOhneQuorum pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250 (k0s-w2 drbd-reactor 1001 monitoring/kps-kube-prometheus-stack-prometheus critical 0)
+15:25:18 [FIRING:1] DrbdSuspendiert pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250 (k0s-w2 drbd-reactor monitoring/kps-kube-prometheus-stack-prometheus critical)
+### 16:31:43 Verbindung wiederherstellen auf k0s-w2
+pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250 role:Secondary
+  disk:Inconsistent open:no
+  k0s-ctrl role:Secondary
+    peer-disk:Diskless peer-client:yes resync-suspended:dependency
+  k0s-w3 role:Primary
+    replication:SyncTarget peer-disk:UpToDate done:86.49
+
+### 16:32:10
+pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250 role:Secondary
+  disk:UpToDate open:no
+  k0s-ctrl role:Secondary
+    peer-disk:Diskless peer-client:yes
+  k0s-w3 role:Primary
+    peer-disk:UpToDate
+
+0J91MVg1AqeKMrRgu8FdlQ 15:35:18 [RESOLVED] DrbdSuspendiert pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250 (k0s-w2 drbd-reactor m
+1neWmBxWmuHVPdbTMx1Tgd 15:35:18 [RESOLVED] DrbdOhneQuorum pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250 (k0s-w2 drbd-reactor 10
+25JJYONgWVp0JCKKdvRAky 15:33:48 [RESOLVED] DrbdVerbindungGetrennt pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250 (drbd-reactor m
+1kDBgtLzAvOkgDz3CilvyC 15:28:48 [FIRING:2] DrbdVerbindungGetrennt pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250 (drbd-reactor m
+7P17TYdKr1jl17zHplyHfM 15:25:18 [FIRING:1] DrbdOhneQuorum pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250 (k0s-w2 drbd-reactor 10
+5Wypp2dprpNuHMvXQyo8JO 15:25:18 [FIRING:1] DrbdSuspendiert pvc-55d1f760-7f7b-4d71-8a03-0e1e8cd11250 (k0s-w2 drbd-reactor m

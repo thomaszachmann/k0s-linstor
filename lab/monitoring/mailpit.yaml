@@ -1,0 +1,35 @@
+# Mailpit fängt alle Mails ab und zeigt sie in einer Weboberfläche.
+# Im Lab der Empfänger für Alertmanager, in Produktion ein echter Mailserver.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mailpit
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: mailpit}
+  template:
+    metadata:
+      labels: {app: mailpit}
+    spec:
+      containers:
+        - name: mailpit
+          image: docker.io/axllent/mailpit:v1.33.1
+          ports:
+            - {name: smtp, containerPort: 1025}
+            - {name: http, containerPort: 8025}
+          resources:
+            requests: {cpu: 10m, memory: 32Mi}
+            limits: {memory: 128Mi}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mailpit
+  namespace: monitoring
+spec:
+  selector: {app: mailpit}
+  ports:
+    - {name: smtp, port: 1025}
+    - {name: http, port: 8025}

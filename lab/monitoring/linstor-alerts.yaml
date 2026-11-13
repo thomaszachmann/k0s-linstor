@@ -30,14 +30,20 @@ groups:
         annotations:
           summary: "DRBD {{ $labels.name }}: Verbindung zu {{ $labels.conn_name }} ist {{ $labels.drbd_connection_state }}"
           description: "StandAlone bedeutet fast immer Split-Brain (Kapitel 11)."
+      # Nur dort kritisch, wo die Ressource Primary ist: Dort hängt die
+      # Anwendung. Ein Secondary ohne Quorum meldet DrbdVerbindungGetrennt.
       - alert: DrbdOhneQuorum
-        expr: drbd_device_quorum == 0
+        expr: |
+          drbd_device_quorum == 0
+            and on (name, instance) drbd_resource_role{drbd_resource_role="Primary"} == 1
         for: 1m
         labels: {severity: critical}
         annotations:
           summary: "DRBD {{ $labels.name }} auf {{ $labels.instance }} hat kein Quorum"
       - alert: DrbdSuspendiert
-        expr: drbd_resource_suspended == 1
+        expr: |
+          drbd_resource_suspended == 1
+            and on (name, instance) drbd_resource_role{drbd_resource_role="Primary"} == 1
         for: 1m
         labels: {severity: critical}
         annotations:
