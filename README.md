@@ -1,49 +1,49 @@
-# k0s und LINSTOR
+# k0s and LINSTOR
 
-Hands-on-Handbuch: Kubernetes mit k0s und repliziertem Block-Speicher mit LINSTOR und DRBD aufbauen und betreiben, Befehl für Befehl. Auf vier Ubuntu-VMs getestet.
+Hands-on handbook: building and running Kubernetes with k0s and replicated block storage with LINSTOR and DRBD, command by command. Tested on four Ubuntu VMs.
 
-**PDF:** [`k0s-und-linstor.pdf`](k0s-und-linstor.pdf) (147 Seiten, Deutsch)
+**PDF:** [`k0s-und-linstor.pdf`](k0s-und-linstor.pdf) (147 pages, German)
 
-## Worum es geht
+## What it covers
 
-- k0s mit k0sctl: ein Controller, drei Worker
-- LINSTOR und DRBD als Pakete auf den Hosts, außerhalb von Kubernetes
-- hochverfügbarer LINSTOR-Controller mit drbd-reactor und virtueller IP
-- zwei Zonen, eine Witness, eigenes Storage-Netz, Writecache auf schnellem Speicher
-- Piraeus-Operator nur als CSI-Treiber gegen den externen Controller
-- Betrieb: Node-Ausfall, Quorum und Split-Brain, volle Volumes, Backup mit Velero, Plattentausch, Updates
-- Ansible-Rollen
-- Monitoring mit Prometheus, Grafana, Loki und Alertmanager: Dashboards, Logs und getestete Alarmregeln, an einem echten DRBD-Fehler durchgespielt
+- k0s with k0sctl: one controller, three workers
+- LINSTOR and DRBD as packages on the hosts, outside Kubernetes
+- highly available LINSTOR controller with drbd-reactor and a virtual IP
+- two zones, one witness, a dedicated storage network, write cache on fast storage
+- Piraeus Operator only as the CSI driver against the external controller
+- Operations: node failure, quorum and split brain, full volumes, backup with Velero, disk replacement, updates
+- Ansible roles
+- Monitoring with Prometheus, Grafana, Loki and Alertmanager: dashboards, logs and tested alerting rules, worked through on a real DRBD failure
 
-## Aufbau des Repositorys
+## Repository layout
 
-| Pfad | Inhalt |
+| Path | Contents |
 |---|---|
-| `buch/` | Quelltext des Buchs (Typst) |
-| `lab/k0sctl.yaml` | Cluster-Beschreibung für k0sctl |
-| `lab/netplan/` | Storage-Netz der Worker |
-| `lab/linstor/` | Mount-Unit und drbd-reactor-Konfiguration für den Controller |
-| `lab/piraeus/` | Helm-Werte für Piraeus als reinen CSI-Treiber |
-| `lab/k8s/` | StorageClass, Beispiel-Datenbank, Test-Manifeste |
-| `lab/backup/` | SeaweedFS als S3-Ziel, Velero-Werte |
-| `lab/ansible/` | Rollen `linstor` und `linstor-controller-ha` |
-| `lab/monitoring/` | drbd-reactor-Metriken, Helm-Werte für kube-prometheus-stack, Loki und Alloy, Mailpit, Grafana-Dashboards, Alarmregeln mit Tests |
-| `lab/protokolle/` | Mitschnitte der Läufe, aus denen das Buch entstand |
+| `buch/` | source of the book (Typst) |
+| `lab/k0sctl.yaml` | cluster description for k0sctl |
+| `lab/netplan/` | storage network of the workers |
+| `lab/linstor/` | mount unit and drbd-reactor configuration for the controller |
+| `lab/piraeus/` | Helm values for Piraeus as a pure CSI driver |
+| `lab/k8s/` | StorageClass, sample database, test manifests |
+| `lab/backup/` | SeaweedFS as S3 target, Velero values |
+| `lab/ansible/` | roles `linstor` and `linstor-controller-ha` |
+| `lab/monitoring/` | drbd-reactor metrics, Helm values for kube-prometheus-stack, Loki and Alloy, Mailpit, Grafana dashboards, alerting rules with tests |
+| `lab/protokolle/` | recordings of the runs the book was written from |
 
-Zugangsdaten für S3 (`lab/backup/s3.json`, `lab/backup/velero-credentials`) sind nicht im Repository. Kapitel 13 zeigt, wie du sie erzeugst.
+S3 credentials (`lab/backup/s3.json`, `lab/backup/velero-credentials`) are not in the repository. Chapter 13 shows how to create them.
 
-## PDF selbst bauen
+## Building the PDF yourself
 
 ```bash
 typst compile --root . buch/main.typ k0s-und-linstor.pdf
 ```
 
-## Versionen
+## Versions
 
-k0s 1.36.6 → 1.37.2, LINSTOR 1.33.3 → 1.35.3, DRBD 9.3.4, drbd-reactor 1.12.0, Piraeus-Operator 2.12.0, linstor-csi 1.12.0 → 1.13.1, Velero 1.18.2, kube-prometheus-stack 93.2.2 (Prometheus 3.16, Grafana 13.3), Loki 3.6, Alloy 1.21.
+k0s 1.36.6 → 1.37.2, LINSTOR 1.33.3 → 1.35.3, DRBD 9.3.4, drbd-reactor 1.12.0, Piraeus Operator 2.12.0, linstor-csi 1.12.0 → 1.13.1, Velero 1.18.2, kube-prometheus-stack 93.2.2 (Prometheus 3.16, Grafana 13.3), Loki 3.6, Alloy 1.21.
 
-## Lizenz
+## License
 
-Das Buch steht unter [CC BY-ND 4.0](https://creativecommons.org/licenses/by-nd/4.0/deed.de). Die unveränderte PDF darfst du frei weitergeben.
+The book is licensed under [CC BY-ND 4.0](https://creativecommons.org/licenses/by-nd/4.0/deed.de). You may freely share the unmodified PDF.
 
 Thomas Zachmann
