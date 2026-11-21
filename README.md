@@ -2,6 +2,8 @@
 
 Hands-on handbook: building and running Kubernetes with k0s and replicated block storage with LINSTOR and DRBD, command by command. Tested on four Ubuntu VMs.
 
+**Free course (English and German):** https://itdrills.com/books/k0s-linstor · German edition: https://it-trainingslager.de/buecher/k0s-linstor
+
 **PDF:** [`k0s-und-linstor.pdf`](k0s-und-linstor.pdf) (147 pages, German)
 
 ## What it covers
